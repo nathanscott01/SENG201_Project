@@ -1,9 +1,18 @@
-<mxfile host="app.diagrams.net" modified="2023-04-22T03:48:19.466Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" version="21.2.1" etag="AfMEmnY395TEdqoV5HHb" type="github">
+<mxfile host="app.diagrams.net" modified="2023-04-22T03:59:18.537Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/112.0" etag="QwkaCSxUmbbBHKcBdG1S" version="21.2.1" type="github">
   <diagram name="Page-1" id="bMTNjFWZ1hn693TnFQwv">
-    <mxGraphModel>
+    <mxGraphModel dx="1434" dy="724" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="zdnAqADiKKsvaP3SV7L7-1" value="&lt;div&gt;View Money, week number, and weeks remaining&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zdnAqADiKKsvaP3SV7L7-2" value="&lt;div&gt;Go to Stadium:&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;See optional Matches&lt;/li&gt;&lt;li&gt;Choose&amp;nbsp; match&lt;br&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="160" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="zdnAqADiKKsvaP3SV7L7-3" value="Go to Club and view Team Properties" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
