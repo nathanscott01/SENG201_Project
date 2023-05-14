@@ -1,14 +1,15 @@
+import java.util.Scanner;
 
 enum GameState {
 	TITLESCREEN, GAMESETUP, TEAMSETUP, PLAYERPURCHASE, WEEKLYSELECT, CLUBVIEW, PLAYERCARD, INVENTORY, MARKETSELECT,
-	PLAYERMARKET, DRAFTPLAYER, ITEMMARKET, DRAFTITEM, TAKINGBYE, STADIUM, MATCHVIEW, PLAYMATCH, MATCHWIN, MATCHLOSS,
+	PLAYERMARKET, DRAFTPLAYER, ITEMMARKET, DRAFTITEM, TAKINGBYE, STADIUM, PLAYMATCH, MATCHWIN, MATCHLOSS,
 	RESULTSCREEN, GAMEFINISH
 }
 
 public class GameEnvironment {
 	private int curWeek = 0;
 	private int endWeek = 0;
-	
+	Scanner sc = new Scanner(System.in);
 	
 	/* calling this advances the weeks by one */
 	public void advanceWeek() {
@@ -18,80 +19,108 @@ public class GameEnvironment {
 		}
 	}
 	
-	public void runCurrentState(GameState state) {
+	public GameState runCurrentState(GameState state, Club playerClub) {
+		String playerInput = "";
+		
 		switch(state) {
-			case TITLESCREEN:
-				/*do something*/
+			case TITLESCREEN:         /*Display game name until the user inputs anything*/
+				System.out.print("LACROSSE\n\nenter anything to start: ");
+				playerInput = sc.nextLine();
+				return GameState.GAMESETUP;
+				
+				
+			case GAMESETUP:           /*Set up club name, week number, difficulty*/
+				System.out.println("Set Up Your Club\n");
+				System.out.print("Enter a Club name (3-15 characters): ");
+				playerInput = sc.nextLine();
+				playerClub.setName(playerInput);
+				System.out.print("\n\n"+playerClub.getName());
+				return GameState.TEAMSETUP;
+				
+				
+			case TEAMSETUP:           /*Purchase Starting athletes and choosing positions*/
 				break;
-			case GAMESETUP:
-				/*do something*/
+				
+				
+			case PLAYERPURCHASE:      /*Screen for purchase and placement confirmation*/
 				break;
-			case TEAMSETUP:
-				/*do something*/
+				
+				
+			case WEEKLYSELECT:        /*Display options for weekly actions for player to choose*/
 				break;
-			case PLAYERPURCHASE:
-				/*do something*/
+				
+				
+			case CLUBVIEW:            /*View club properties. club name, athletes and properties, inventory*/
 				break;
-			case WEEKLYSELECT:
-				/*do something*/
+				
+				
+			case PLAYERCARD:		  /*displays athlete stats and position, used by the club view*/
 				break;
-			case CLUBVIEW:
-				/*do something*/
+				
+				
+			case INVENTORY:   		  /*display inventory, shows items and their effect and use on an athlete*/
 				break;
-			case PLAYERCARD:
-				/*do something*/
+				
+				
+			case MARKETSELECT:        /*Choose the athlete store or the item store*/
 				break;
-			case INVENTORY:
-				/*do something*/
+				
+				
+			case PLAYERMARKET:        /*displays a few athletes 3-5 for purchase and their stats links to player drafting*/
 				break;
-			case MARKETSELECT:
-				/*do something*/
+				
+				
+			case DRAFTPLAYER:		  /*allows player to draft players and get some money back*/
 				break;
-			case PLAYERMARKET:
-				/*do something*/
+				
+				
+			case ITEMMARKET:		  /*displays a few items 3 or more for purchase and their stats links to item drafting */
 				break;
-			case DRAFTPLAYER:
-				/*do something*/
+				
+				
+			case DRAFTITEM:			  /*allows player to draft items and get some money back*/
 				break;
-			case ITEMMARKET:
-				/*do something*/
+				
+				
+			case TAKINGBYE:			  /*skips a week, resetting market and matches, runs a random event*/
 				break;
-			case DRAFTITEM:
-				/*do something*/
+				
+				
+			case STADIUM:			  /*displays matches for player to choose from*/
 				break;
-			case TAKINGBYE:
-				/*do something*/
+				
+				
+			case PLAYMATCH:			  /*display athlete match-ups*/
 				break;
-			case STADIUM:
-				/*do something*/
+				
+				
+			case MATCHWIN:			  /*display victory screen if player wins match*/
 				break;
-			case MATCHVIEW:
-				/*do something*/
+				
+				
+			case MATCHLOSS:			  /*display loss screen if player loses*/
 				break;
-			case PLAYMATCH:
-				/*do something*/
+				
+				
+			case RESULTSCREEN:		  /*display the overall result as the player has run out of weeks or athletes*/
 				break;
-			case MATCHWIN:
-				/*do something*/
-				break;
-			case MATCHLOSS:
-				/*do something*/
-				break;
-			case RESULTSCREEN:
-				/*do something*/
-				break;
+				
+				
 			case GAMEFINISH:
-				/*do something*/
+				break;
+			default:
 				break;
 		}
+		return GameState.GAMEFINISH;
 	}
 	
 	public static void main(String[] args) {
 		GameEnvironment game = new GameEnvironment();
+		Club playerClub = new Club();
 		GameState state = GameState.TITLESCREEN;
 		
 		while(state != GameState.GAMEFINISH) { /*run until the game is finished*/
-			game.runCurrentState(state);
+			state = game.runCurrentState(state, playerClub);
 		}
 	}
 }
