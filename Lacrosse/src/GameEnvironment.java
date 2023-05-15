@@ -12,11 +12,32 @@ public class GameEnvironment {
 	Scanner sc = new Scanner(System.in);
 	
 	/* calling this advances the weeks by one */
-	public void advanceWeek() {
+	public GameState advanceWeek() {
 		curWeek +=1;
-		if (curWeek > endWeek){   /*implement to end the game */
-			
+		if (curWeek > endWeek){   /*ends game if end week reached */
+			return GameState.RESULTSCREEN;
 		}
+		return GameState.WEEKLYSELECT;
+	}
+	
+	public void setClubName(String playerInput, Club playerClub) {     /*takes input until one can be set as club name*/
+		playerInput = sc.nextLine();
+		while ((playerInput.length()<3) | (playerInput.length()>15)){
+			System.out.print("\nname must be 3-15 characters: ");
+			playerInput = sc.nextLine();
+			}
+		playerClub.setName(playerInput);
+	}
+	
+	public void setSeasonLength() {           	   /*takes input until one can be set as endWeek*/
+		Integer playerInput;
+		playerInput = sc.nextInt();
+		
+		while ((playerInput<5) | (playerInput>15)){
+			System.out.print("\nSeason must last between 5 and 15 inclusive: ");
+			playerInput = sc.nextInt();
+		}
+		endWeek = playerInput;
 	}
 	
 	public GameState runCurrentState(GameState state, Club playerClub) {
@@ -32,9 +53,15 @@ public class GameEnvironment {
 			case GAMESETUP:           /*Set up club name, week number, difficulty*/
 				System.out.println("Set Up Your Club\n");
 				System.out.print("Enter a Club name (3-15 characters): ");
-				playerInput = sc.nextLine();
-				playerClub.setName(playerInput);
+				
+				setClubName(playerInput, playerClub); //sets Club name
+				
+				System.out.print("\nhow many weeks will the season last (5-15): ");
+				
+				setSeasonLength();         //sets end week
+				
 				System.out.print("\n\n"+playerClub.getName());
+				System.out.print("\n\n"+endWeek);
 				return GameState.TEAMSETUP;
 				
 				
