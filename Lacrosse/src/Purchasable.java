@@ -6,4 +6,8 @@ public class Purchasable extends GameEnvironment {
 	public Purchasable(BigDecimal cost){
 		price = cost;
 	}
+	
+	public BigDecimal getPrice() {
+		return price;
+	}
 }
