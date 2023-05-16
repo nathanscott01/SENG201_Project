@@ -67,6 +67,18 @@ public class GameEnvironment {
 				
 			case TEAMSETUP:           /*Purchase Starting athletes and choosing positions*/
 				System.out.print("MADEITHERE");
+				Athlete newAthlete = new Athlete(123, 12, 12, 12, "john");
+				newAthlete.setPosition(1);
+				playerClub.addAthlete(newAthlete);
+				Athlete newAthlete1 = new Athlete(123, 12, 12, 12, "john");
+				newAthlete.setPosition(1);
+				playerClub.addAthlete(newAthlete1);
+				Athlete newAthlete2 = new Athlete(123, 12, 12, 12, "john");
+				newAthlete.setPosition(1);
+				playerClub.addAthlete(newAthlete2);
+				System.out.println(playerClub.getNumPosition(1));
+				
+				
 				break;
 				
 				
