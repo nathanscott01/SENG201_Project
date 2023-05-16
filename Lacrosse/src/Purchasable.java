@@ -1,13 +1,11 @@
-import java.math.BigDecimal;
-
 public class Purchasable extends GameEnvironment {
-	private BigDecimal price;
+	private float price;
 	
-	public Purchasable(BigDecimal cost){
+	public Purchasable(float cost){
 		price = cost;
 	}
 	
-	public BigDecimal getPrice() {
+	public float getPrice() {
 		return price;
 	}
 }
