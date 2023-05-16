@@ -1,10 +1,8 @@
-import java.math.BigDecimal;
-
 public class Item extends Purchasable{
 	
 	
 	
-	public Item(BigDecimal cost) {
+	public Item(float cost) {
 		super(cost);
     }
 }
