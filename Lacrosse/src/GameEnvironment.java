@@ -30,12 +30,14 @@ public class GameEnvironment {
 	}
 	
 	public void setSeasonLength() {           	   /*takes input until one can be set as endWeek*/
-		Integer playerInput;
-		playerInput = sc.nextInt();
-		
+		Integer playerInput=0;
 		while ((playerInput<5) | (playerInput>15)){
-			System.out.print("\nSeason must last between 5 and 15 inclusive: ");
-			playerInput = sc.nextInt();
+			System.out.print("\nhow many weeks will the season last (5-15): ");
+			try {
+		        playerInput= Integer.parseInt(sc.nextLine());
+		    } catch (NumberFormatException e) {
+		        System.out.println("Error! Must be an integer between 5 and 15");
+		    }
 		}
 		endWeek = playerInput;
 	}
@@ -56,16 +58,15 @@ public class GameEnvironment {
 				
 				setClubName(playerInput, playerClub); //sets Club name
 				
-				System.out.print("\nhow many weeks will the season last (5-15): ");
-				
 				setSeasonLength();         //sets end week
 				
 				System.out.print("\n\n"+playerClub.getName());
-				System.out.print("\n\n"+endWeek);
+				System.out.println("\n\n"+endWeek);
 				return GameState.TEAMSETUP;
 				
 				
 			case TEAMSETUP:           /*Purchase Starting athletes and choosing positions*/
+				System.out.print("MADEITHERE");
 				break;
 				
 				
