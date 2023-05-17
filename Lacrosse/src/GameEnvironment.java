@@ -42,6 +42,13 @@ public class GameEnvironment {
 		endWeek = playerInput;
 	}
 	
+	public Athlete createAthlete() {   				/*creates a radomized athlete based on current week !!!!!(week based not implimented) */
+		int ranAtkStat = (int)Math.floor(Math.random()*(30-15+1) + 15);
+		int ranDefStat = (int)Math.floor(Math.random()*(30-15+1) + 15);
+		Athlete newAthlete = new Athlete(100, ranAtkStat, ranDefStat, 100);
+		return newAthlete;
+	}
+	
 	public GameState runCurrentState(GameState state, Club playerClub) {
 		String playerInput = "";
 		
@@ -60,22 +67,22 @@ public class GameEnvironment {
 				
 				setSeasonLength();         //sets end week
 				
-				System.out.print("\n\n"+playerClub.getName());
-				System.out.println("\n\n"+endWeek);
 				return GameState.TEAMSETUP;
 				
 				
 			case TEAMSETUP:           /*Purchase Starting athletes and choosing positions*/
 				System.out.print("MADEITHERE\n");
-				Athlete newAthlete = new Athlete(123, 12, 12, 12);
+				Athlete newAthlete = createAthlete();
 				newAthlete.setPosition(1);
 				playerClub.teamAddAthlete(newAthlete);
-				Athlete newAthlete1 = new Athlete(123, 12, 12, 12);
+				Athlete newAthlete1 = createAthlete();
 				newAthlete1.setPosition(1);
 				playerClub.teamAddAthlete(newAthlete1);
-				Athlete newAthlete2 = new Athlete(123, 12, 12, 12);
+				Athlete newAthlete2 = createAthlete();
 				newAthlete2.setPosition(2);
 				playerClub.teamAddAthlete(newAthlete2);
+				
+				
 				System.out.println(playerClub.getNumPosition(2));
 				for (Athlete athlete : playerClub.getTeam()) {
 					System.out.println(athlete.getName()[0]);
