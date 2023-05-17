@@ -83,6 +83,9 @@ public class GameEnvironment {
 				
 				setSeasonLength();         //sets end week
 				
+				playerInputInteger = getPlayerInt(1,3,"\nSelect a Difficulty\n\n1. Easy\n2. Normal\n3. Hard\nEnter choice: ");
+				difficulty = playerInputInteger;
+				
 				return GameState.TEAMSETUP;
 				
 				
