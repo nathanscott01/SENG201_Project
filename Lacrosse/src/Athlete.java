@@ -25,7 +25,7 @@ public class Athlete extends Purchasable {
 		nickname = word;
 	}
 	
-	public int[] getStats() {
+	public int[] getStats() {         //returned as a list of stats
 		int[] retArray = new int[3];
 		retArray[0] = atkStat;
 		retArray[1] = defStat;
@@ -34,7 +34,7 @@ public class Athlete extends Purchasable {
 		return retArray;
 	}
 	
-	public String[] getName() {
+	public String[] getName() {		  //returned as a list of name and nickname
 		String[] retArray = new String[2];
 		retArray[0] = name;
 		retArray[1] = nickname;
