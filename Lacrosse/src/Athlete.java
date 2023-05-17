@@ -6,12 +6,26 @@ public class Athlete extends Purchasable {
 	private String nickname;
 	private int position;
 	
-	public Athlete(float cost,int aStat, int dStat, int stam, String ogName) {
+											/*list of random first and last names used for character creation*/
+	
+	private String[] firstNames = new String[] {"John","Dominic","Nathan","Max","Robert","Paul","Dave","Gary","Michael","Jimmy",
+												"Brodie","Eren","Kyle","Ryan","Jen","Rob","Matt","Marcus","Zach","Greg","Tom",
+												"Ben","Casey","Bill","Taylor","Katie","Vivien","Alyssa","Sarah","Tina","Diane",
+												"Hannah"};
+	private String[] lastNames = new String[] {"Adams","Dumble","Scott","Hogan","Cummings","Schwarzmann","Treanor","Tumolo",
+												"Kent","Dobble","Devens","Fleming","Jones","Brown","Green","Edgeworth","Lautner",
+												"Timchal","Grayson","North","Strife","Universe","Cheeseman","Yeager","Reynolds",
+												"Gosling","Wick","Vandeley","Hollow","Forger","Tenneson","Higashiyama"};
+	
+	public Athlete(float cost,int aStat, int dStat, int stam) {
 		super(cost);
 		
 		atkStat = aStat;
 		defStat = dStat;
 		stamina = stam;
+		int randomFirst = (int)Math.floor(Math.random()*(31) + 1);   //random numbers generated for the athletes name
+		int randomLast = (int)Math.floor(Math.random()*(31) + 1);
+		String ogName = firstNames[randomFirst]+" "+lastNames[randomLast];
 		name = ogName;
 		nickname = ogName;
     }
