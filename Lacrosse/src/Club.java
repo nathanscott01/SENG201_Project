@@ -43,6 +43,10 @@ public class Club extends GameEnvironment {
 		team.add(athlete);
 	}
 	
+	public void teamRemoveAthlete(Athlete athlete) {    /*Removes given athlete from the Club Team*/
+		team.remove(athlete);
+	}
+	
 	public Boolean checkTeamFull(Club club) {   /*Checks if the team is full*/
 		if (club.getNumPosition(1)==2 & club.getNumPosition(2)==3 & club.getNumPosition(1)==2) {
 			return true;
