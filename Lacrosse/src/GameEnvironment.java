@@ -29,29 +29,30 @@ public class GameEnvironment {
 		playerClub.setName(playerInput);
 	}
 	
-	public void setSeasonLength() {           	   /*takes input until one can be set as endWeek*/
-		Integer playerInput=0;
-		while ((playerInput<5) | (playerInput>15)){
-			System.out.print("\nhow many weeks will the season last (5-15): ");
+	public int getPlayerInt(Integer min, Integer max, String errorMessage, String prompt) {   /*gets player input int between min and max*/
+		Integer playerInput=-1;
+		while ((playerInput<min) | (playerInput>max)){
+			System.out.print(prompt);
 			try {
 		        playerInput= Integer.parseInt(sc.nextLine());
 		    } catch (NumberFormatException e) {
-		        System.out.println("Error! Must be an integer between 5 and 15");
 		    }
+			if ((playerInput<min) | (playerInput>max)){
+				System.out.println(errorMessage);
+			}
 		}
+		return playerInput;
+	}
+	
+	public void setSeasonLength() {           	   /*takes input until one can be set as endWeek*/
+		Integer playerInput=0;
+		playerInput = getPlayerInt(5, 15, "Error! Must be an integer between 5 and 15", "\nhow many weeks will the season last (5-15): ");
 		endWeek = playerInput;
 	}
 	
 	public void playerSetPosition(Athlete athlete) { /*Player sets an athletes position*/
 		Integer playerInput=0;
-		while ((playerInput<1) | (playerInput>3)){
-			System.out.print("\nSet Player position (1:Forward, 2:Mid, 3:Defense)\nEnter 1-3: ");
-			try {
-		        playerInput= Integer.parseInt(sc.nextLine());
-		    } catch (NumberFormatException e) {
-		        System.out.println("Error! Must be an integer between 1 and 3");
-		    }
-		}
+		playerInput = getPlayerInt(1, 3, "Error! Must be an integer between 1 and 3","\nSet Player position (1:Forward, 2:Mid, 3:Defense)\nEnter 1-3: ");
 		athlete.setPosition(playerInput);
 	}
 	
@@ -85,26 +86,19 @@ public class GameEnvironment {
 				
 			case TEAMSETUP:           /*Purchase Starting athletes and choosing positions*/
 				System.out.print("MADEITHERE\n");
-				Athlete newAthlete = createAthlete();
-				newAthlete.playerSetPosition(newAthlete);
-				playerClub.teamAddAthlete(newAthlete);
-				Athlete newAthlete1 = createAthlete();
-				newAthlete1.setPosition(1);
-				playerClub.teamAddAthlete(newAthlete1);
-				Athlete newAthlete2 = createAthlete();
-				newAthlete2.setPosition(2);
-				playerClub.teamAddAthlete(newAthlete2);
 				
-				
-				System.out.println(playerClub.getNumPosition(2));
-				for (Athlete athlete : playerClub.getTeam()) {
-					System.out.println(athlete.getName()[0]);
+				while (!playerClub.checkTeamFull(playerClub)) {        //loop used for player choosing team members
+					Athlete newAthlete = createAthlete();
+					newAthlete.playerSetPosition(newAthlete);
+					playerClub.teamAddAthlete(newAthlete);
 				}
 				
-				break;
+				
+				return GameState.WEEKLYSELECT;
 				
 				
 			case PLAYERPURCHASE:      /*Screen for purchase and placement confirmation*/
+				System.out.print("MADEITHERE\n");
 				break;
 				
 				
