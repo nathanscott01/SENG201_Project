@@ -42,6 +42,19 @@ public class GameEnvironment {
 		endWeek = playerInput;
 	}
 	
+	public void playerSetPosition(Athlete athlete) { /*Player sets an athletes position*/
+		Integer playerInput=0;
+		while ((playerInput<1) | (playerInput>3)){
+			System.out.print("\nSet Player position (1:Forward, 2:Mid, 3:Defense)\nEnter 1-3: ");
+			try {
+		        playerInput= Integer.parseInt(sc.nextLine());
+		    } catch (NumberFormatException e) {
+		        System.out.println("Error! Must be an integer between 1 and 3");
+		    }
+		}
+		athlete.setPosition(playerInput);
+	}
+	
 	public Athlete createAthlete() {   				/*creates a radomized athlete based on current week !!!!!(week based not implimented) */
 		int ranAtkStat = (int)Math.floor(Math.random()*(30-15+1) + 15);
 		int ranDefStat = (int)Math.floor(Math.random()*(30-15+1) + 15);
@@ -73,7 +86,7 @@ public class GameEnvironment {
 			case TEAMSETUP:           /*Purchase Starting athletes and choosing positions*/
 				System.out.print("MADEITHERE\n");
 				Athlete newAthlete = createAthlete();
-				newAthlete.setPosition(1);
+				newAthlete.playerSetPosition(newAthlete);
 				playerClub.teamAddAthlete(newAthlete);
 				Athlete newAthlete1 = createAthlete();
 				newAthlete1.setPosition(1);
