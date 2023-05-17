@@ -66,18 +66,17 @@ public class GameEnvironment {
 				
 				
 			case TEAMSETUP:           /*Purchase Starting athletes and choosing positions*/
-				System.out.print("MADEITHERE");
+				System.out.print("MADEITHERE\n");
 				Athlete newAthlete = new Athlete(123, 12, 12, 12, "john");
 				newAthlete.setPosition(1);
-				playerClub.addAthlete(newAthlete);
+				playerClub.teamAddAthlete(newAthlete);
 				Athlete newAthlete1 = new Athlete(123, 12, 12, 12, "john");
-				newAthlete.setPosition(1);
-				playerClub.addAthlete(newAthlete1);
+				newAthlete1.setPosition(1);
+				playerClub.teamAddAthlete(newAthlete1);
 				Athlete newAthlete2 = new Athlete(123, 12, 12, 12, "john");
-				newAthlete.setPosition(1);
-				playerClub.addAthlete(newAthlete2);
-				System.out.println(playerClub.getNumPosition(1));
-				
+				newAthlete2.setPosition(2);
+				playerClub.teamAddAthlete(newAthlete2);
+				System.out.println(playerClub.getNumPosition(2));
 				
 				break;
 				
