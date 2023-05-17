@@ -2,13 +2,14 @@ import java.util.Scanner;
 
 enum GameState {
 	TITLESCREEN, GAMESETUP, TEAMSETUP, PLAYERPURCHASE, WEEKLYSELECT, CLUBVIEW, PLAYERCARD, INVENTORY, MARKETSELECT,
-	PLAYERMARKET, DRAFTPLAYER, ITEMMARKET, DRAFTITEM, TAKINGBYE, STADIUM, PLAYMATCH, MATCHWIN, MATCHLOSS,
+	ATHLETEMARKET, DRAFTATHELTE, ITEMMARKET, DRAFTITEM, TAKINGBYE, STADIUM, PLAYMATCH, MATCHWIN, MATCHLOSS,
 	RESULTSCREEN, GAMEFINISH
 }
 
 public class GameEnvironment {
 	private int curWeek = 0;
 	private int endWeek = 0;
+	private int difficulty = 2;
 	Scanner sc = new Scanner(System.in);
 	
 	/* calling this advances the weeks by one */
@@ -29,7 +30,7 @@ public class GameEnvironment {
 		playerClub.setName(playerInput);
 	}
 	
-	public int getPlayerInt(Integer min, Integer max, String errorMessage, String prompt) {   /*gets player input int between min and max*/
+	public int getPlayerInt(Integer min, Integer max, String prompt) {   /*gets player input int between min and max*/
 		Integer playerInput=-1;
 		while ((playerInput<min) | (playerInput>max)){
 			System.out.print(prompt);
@@ -38,7 +39,7 @@ public class GameEnvironment {
 		    } catch (NumberFormatException e) {
 		    }
 			if ((playerInput<min) | (playerInput>max)){
-				System.out.println(errorMessage);
+				System.out.println("Error! Must be an integer between "+min+" and "+max);
 			}
 		}
 		return playerInput;
@@ -46,17 +47,17 @@ public class GameEnvironment {
 	
 	public void setSeasonLength() {           	   /*takes input until one can be set as endWeek*/
 		Integer playerInput=0;
-		playerInput = getPlayerInt(5, 15, "Error! Must be an integer between 5 and 15", "\nhow many weeks will the season last (5-15): ");
+		playerInput = getPlayerInt(5, 15, "\nhow many weeks will the season last (5-15): ");
 		endWeek = playerInput;
 	}
 	
 	public void playerSetPosition(Athlete athlete) { /*Player sets an athletes position*/
 		Integer playerInput=0;
-		playerInput = getPlayerInt(1, 3, "Error! Must be an integer between 1 and 3","\nSet Player position (1:Forward, 2:Mid, 3:Defense)\nEnter 1-3: ");
+		playerInput = getPlayerInt(1, 3, "\nSet Player position (1:Forward, 2:Mid, 3:Defense)\nEnter 1-3: ");
 		athlete.setPosition(playerInput);
 	}
 	
-	public Athlete createAthlete() {   				/*creates a radomized athlete based on current week !!!!!(week based not implimented) */
+	public Athlete createAthlete() {   				/*creates a randomized athlete based on current week !!!!!(week based not implimented) */
 		int ranAtkStat = (int)Math.floor(Math.random()*(30-15+1) + 15);
 		int ranDefStat = (int)Math.floor(Math.random()*(30-15+1) + 15);
 		Athlete newAthlete = new Athlete(100, ranAtkStat, ranDefStat, 100);
@@ -64,12 +65,13 @@ public class GameEnvironment {
 	}
 	
 	public GameState runCurrentState(GameState state, Club playerClub) {
-		String playerInput = "";
+		String playerInputString = "";
+		Integer playerInputInteger;
 		
 		switch(state) {
 			case TITLESCREEN:         /*Display game name until the user inputs anything*/
 				System.out.print("LACROSSE\n\nenter anything to start: ");
-				playerInput = sc.nextLine();
+				playerInputString = sc.nextLine();
 				return GameState.GAMESETUP;
 				
 				
@@ -77,7 +79,7 @@ public class GameEnvironment {
 				System.out.println("Set Up Your Club\n");
 				System.out.print("Enter a Club name (3-15 characters): ");
 				
-				setClubName(playerInput, playerClub); //sets Club name
+				setClubName(playerInputString, playerClub); //sets Club name
 				
 				setSeasonLength();         //sets end week
 				
@@ -103,7 +105,17 @@ public class GameEnvironment {
 				
 				
 			case WEEKLYSELECT:        /*Display options for weekly actions for player to choose*/
-				break;
+				playerInputInteger = getPlayerInt(1,4,"\nWhat would you like to do?\n\n1. Go to Club\n2. Go to Stadium\n3. Visit Market\n4. Take a Bye\nEnter choice: ");
+				switch(playerInputInteger) {
+					case(1):
+						return GameState.CLUBVIEW;
+					case(2):
+						return GameState.STADIUM;
+					case(3):
+						return GameState.MARKETSELECT;
+					case(4):
+						return GameState.TAKINGBYE;
+				}
 				
 				
 			case CLUBVIEW:            /*View club properties. club name, athletes and properties, inventory*/
@@ -119,23 +131,40 @@ public class GameEnvironment {
 				
 				
 			case MARKETSELECT:        /*Choose the athlete store or the item store*/
-				break;
+				playerInputInteger = getPlayerInt(1,5,"\nWelcome to the Market, Which section?\n\n1. Athlete Purchase\n2. Athlete Drafting\n3. Item Purchase"
+						+ "\n4. Item Drafting\n5. Go Back\nEnter choice: ");
+				switch(playerInputInteger) {
+					case(1):
+						return GameState.ATHLETEMARKET;
+					case(2):
+						return GameState.DRAFTATHELTE;
+					case(3):
+						return GameState.ITEMMARKET;
+					case(4):
+						return GameState.DRAFTITEM;
+					case(5):
+						return GameState.WEEKLYSELECT;
+				}
 				
 				
-			case PLAYERMARKET:        /*displays a few athletes 3-5 for purchase and their stats links to player drafting*/
-				break;
+			case ATHLETEMARKET:        /*displays a few athletes 3-5 for purchase and their stats links to player drafting*/
+				System.out.print("MADEITHERE athlete market\n");
+				return GameState.MARKETSELECT;
 				
 				
-			case DRAFTPLAYER:		  /*allows player to draft players and get some money back*/
-				break;
+			case DRAFTATHELTE:		  /*allows player to draft players and get some money back*/
+				System.out.print("MADEITHERE draft athlete\n");
+				return GameState.MARKETSELECT;
 				
 				
 			case ITEMMARKET:		  /*displays a few items 3 or more for purchase and their stats links to item drafting */
-				break;
+				System.out.print("MADEITHERE item market\n");
+				return GameState.MARKETSELECT;
 				
 				
 			case DRAFTITEM:			  /*allows player to draft items and get some money back*/
-				break;
+				System.out.print("MADEITHERE draft item\n");
+				return GameState.MARKETSELECT;
 				
 				
 			case TAKINGBYE:			  /*skips a week, resetting market and matches, runs a random event*/
@@ -161,9 +190,6 @@ public class GameEnvironment {
 			case RESULTSCREEN:		  /*display the overall result as the player has run out of weeks or athletes*/
 				break;
 				
-				
-			case GAMEFINISH:
-				break;
 			default:
 				break;
 		}
