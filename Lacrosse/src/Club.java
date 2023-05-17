@@ -28,7 +28,8 @@ public class Club extends GameEnvironment {
 		return reserve;
 	}
 	
-	public int getNumPosition(int position) {
+	public int getNumPosition(int position) {		/*returns the number of players in a specified position
+	 												  1:Forward, 2:Mid, 3:Defense*/
 		int retNum=0;
 		for (Athlete athlete : team) {
 			if (athlete.getPosition()==position) {
@@ -38,7 +39,14 @@ public class Club extends GameEnvironment {
 		return retNum;
 	}
 	
-	public void addAthlete(Athlete athlete) {
+	public void teamAddAthlete(Athlete athlete) {      	/*Adds given athlete to the Club Team*/
 		team.add(athlete);
+	}
+	
+	public Boolean checkTeamFull(Club club) {   /*Checks if the team is full*/
+		if (club.getNumPosition(1)==2 & club.getNumPosition(2)==3 & club.getNumPosition(1)==2) {
+			return true;
+		}
+		return false;
 	}
 }
