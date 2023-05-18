@@ -1,3 +1,4 @@
+package Main;
 public class Athlete extends Purchasable {
 	private int atkStat;
 	private int defStat;
@@ -19,7 +20,6 @@ public class Athlete extends Purchasable {
 	
 	public Athlete(float cost,int aStat, int dStat, int stam) {
 		super(cost);
-		
 		atkStat = aStat;
 		defStat = dStat;
 		stamina = stam;

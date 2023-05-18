@@ -1,3 +1,4 @@
+package Main;
 public class Purchasable extends GameEnvironment {
 	private float price;
 	
