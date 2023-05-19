@@ -2,7 +2,7 @@ package Main;
 import java.util.Scanner;
 
 enum GameState {
-	TITLESCREEN, GAMESETUP, TEAMSETUP, PLAYERPURCHASE, WEEKLYSELECT, CLUBVIEW, PLAYERCARD, INVENTORY, MARKETSELECT,
+	TITLESCREEN, GAMESETUP, TEAMSETUP, PLAYERPURCHASE, WEEKLYSELECT, CLUBVIEW, INVENTORY, MARKETSELECT,
 	ATHLETEMARKET, DRAFTATHELTE, ITEMMARKET, DRAFTITEM, TAKINGBYE, STADIUM, PLAYMATCH, MATCHWIN, MATCHLOSS,
 	RESULTSCREEN, GAMEFINISH
 }
@@ -91,8 +91,6 @@ public class GameEnvironment {
 				
 				
 			case TEAMSETUP:           /*Purchase Starting athletes and choosing positions*/
-				System.out.print("MADEITHERE\n");
-				
 				while (!playerClub.checkTeamFull(playerClub)) {        //loop used for player choosing team members
 					Athlete newAthlete = createAthlete();
 					newAthlete.playerSetPosition(newAthlete);
@@ -123,18 +121,24 @@ public class GameEnvironment {
 				
 				
 			case CLUBVIEW:            /*View club properties. club name, athletes and properties, inventory*/
-				System.out.println("\nClub Name: "+playerClub.getName());
+				System.out.println("\nClub Name: "+playerClub.getName()+"\n");
 				for (Athlete athlete : playerClub.getTeam()) {
 					System.out.println(athlete);
 				}
-				break;
-				
-				
-			case PLAYERCARD:		  /*displays athlete stats and position, used by the club view*/
+				playerInputInteger = getPlayerInt(1,3,"\nWhat would you like to do?\n\n1. View Inventory\n2. Swap a player with a reserve\n3. Go Back\nEnter choice: ");
+				switch(playerInputInteger) {
+				case(1):
+					return GameState.INVENTORY;
+				case(2):
+					return GameState.INVENTORY;     //CHANGE THIS TO A NEW STATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				case(3):
+					return GameState.WEEKLYSELECT;
+			}
 				break;
 				
 				
 			case INVENTORY:   		  /*display inventory, shows items and their effect and use on an athlete*/
+				System.out.print("MADEITHERE\n");
 				break;
 				
 				
