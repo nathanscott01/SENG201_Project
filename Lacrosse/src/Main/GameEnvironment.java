@@ -123,6 +123,10 @@ public class GameEnvironment {
 				
 				
 			case CLUBVIEW:            /*View club properties. club name, athletes and properties, inventory*/
+				System.out.println("\nClub Name: "+playerClub.getName());
+				for (Athlete athlete : playerClub.getTeam()) {
+					System.out.println(athlete);
+				}
 				break;
 				
 				

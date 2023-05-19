@@ -65,4 +65,19 @@ public class Athlete extends Purchasable {
 		stamina -=decrease;
 		return stamina<=0;
 	}
+
+	@Override
+	  public String toString() {
+		switch(position) {
+			case(1):
+				return nickname+": atk-"+atkStat+" def-"+defStat+" stamina-"+stamina+" position-Forward";
+			case(2):
+				return nickname+": atk-"+atkStat+" def-"+defStat+" stamina-"+stamina+" position-Mid";
+			case(3):
+				return nickname+": atk-"+atkStat+" def-"+defStat+" stamina-"+stamina+" position-Defence";
+			case(4):
+				return nickname+": atk-"+atkStat+" def-"+defStat+" stamina-"+stamina+" position-Reserve";
+		}
+		return "This shouldn't happen";
+	  }
 }
