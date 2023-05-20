@@ -71,7 +71,6 @@ public class Athlete extends Purchasable {
 		pos_tracker = athlete1.getPosition();
 		athlete1.setPosition(athlete2.getPosition());
 		athlete2.setPosition(pos_tracker);
-		
 	}
 
 	@Override

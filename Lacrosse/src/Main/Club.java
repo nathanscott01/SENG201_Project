@@ -54,4 +54,46 @@ public class Club extends GameEnvironment {
 		}
 		return false;
 	}
+	
+	public void printTeam() {
+		System.out.println("\nForwards:");
+		for (Athlete athlete : team) {
+			if (athlete.getPosition()==1) {
+				System.out.println(athlete);
+			}
+		}
+		System.out.println("\nMid:");
+		for (Athlete athlete : team) {
+			if (athlete.getPosition()==2) {
+				System.out.println(athlete);
+			}
+		}
+		System.out.println("\nDefence:");
+		for (Athlete athlete : team) {
+			if (athlete.getPosition()==3) {
+				System.out.println(athlete);
+			}
+		}
+	}
+	
+	public void printReserve() {
+		System.out.println("\n\nReserve:");
+		for (Athlete athlete : reserve) {
+			System.out.println(athlete);
+		}
+	}
+	
+	public Boolean availableReserve() {
+		int playerCount = 0;
+		for (Athlete athlete : reserve) {
+			if (athlete.getStats()[2]>0) {
+				playerCount+=1;
+			}
+		}
+		if(playerCount>0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
