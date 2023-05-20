@@ -65,6 +65,14 @@ public class Athlete extends Purchasable {
 		stamina -=decrease;
 		return stamina<=0;
 	}
+	
+	public void positionSwap(Athlete athlete1, Athlete athlete2) {
+		int pos_tracker;
+		pos_tracker = athlete1.getPosition();
+		athlete1.setPosition(athlete2.getPosition());
+		athlete2.setPosition(pos_tracker);
+		
+	}
 
 	@Override
 	  public String toString() {
