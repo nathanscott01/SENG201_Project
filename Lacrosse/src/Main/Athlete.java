@@ -65,6 +65,18 @@ public class Athlete extends Purchasable {
 		stamina -=decrease;
 		return stamina<=0;
 	}
+	
+	public void statIncrease(int stat, int increase) {   /*Used when an item is used for stat increase*/
+		if(stat==0) {
+			atkStat+=increase;
+		} else{
+			if(stat==1){
+			defStat+=increase;
+			} else {
+				stamina+=increase;
+			}
+		}
+	}
 
 	@Override
 	  public String toString() {

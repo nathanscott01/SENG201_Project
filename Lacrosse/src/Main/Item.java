@@ -10,18 +10,20 @@ public class Item extends Purchasable{
 	public Item(float cost) {
 		super(cost);
 		statChange = (int)Math.floor(Math.random()*(25) + 1);
-		changeType = (int)Math.floor(Math.random()*(3) + 1);
+		changeType = (int)Math.floor(Math.random()*(2+1));
 		textDesc = descriptions[(int)Math.floor(Math.random()*(7+1))];
     }
 	
-	
+	public void useItem(Athlete athlete) {
+		athlete.statIncrease(changeType, statChange);
+	}
 	
 	@Override
 	public String toString() {
 		switch(changeType) {
-		case(1):
+		case(0):
 			return textDesc+": increases Attack by "+statChange;
-		case(2):
+		case(1):
 			return textDesc+": increases Defence by "+statChange;
 		}
 		return textDesc+": increases Stamina by "+statChange;

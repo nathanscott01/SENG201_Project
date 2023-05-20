@@ -2,7 +2,7 @@ package Main;
 import java.util.Scanner;
 
 enum GameState {
-	TITLESCREEN, GAMESETUP, TEAMSETUP, PLAYERPURCHASE, WEEKLYSELECT, CLUBVIEW, SWAPATHLETE, INVENTORY, MARKETSELECT,
+	TITLESCREEN, GAMESETUP, TEAMSETUP, WEEKLYSELECT, CLUBVIEW, SWAPATHLETE, INVENTORY, MARKETSELECT,
 	ATHLETEMARKET, DRAFTATHELTE, ITEMMARKET, DRAFTITEM, TAKINGBYE, STADIUM, PLAYMATCH, MATCHWIN, MATCHLOSS,
 	RESULTSCREEN, GAMEFINISH
 }
@@ -56,7 +56,7 @@ public class GameEnvironment {
 	
 	public void playerSetPosition(Athlete athlete) { /*Player sets an athletes position*/
 		Integer playerInput=0;
-		playerInput = getPlayerInt(1, 4, "\nSet Player position (1:Forward, 2:Mid, 3:Defense)\nEnter 1-3: ");
+		playerInput = getPlayerInt(1, 3, "\nSet Player position (1:Forward, 2:Mid, 3:Defense)\nEnter 1-3: ");
 		athlete.setPosition(playerInput);
 	}
 	
@@ -76,10 +76,13 @@ public class GameEnvironment {
 		return newItem;
 	}
 	
-	public GameState runCurrentState(GameState state, Club playerClub, Market playerMarket, Market itemMarket) {
+	public GameState runCurrentState(GameState state, Club playerClub, Market playerMarket, Market itemMarket, Inventory inventory) {
 		String playerInputString = "";
 		Integer playerInputInteger;
-		int marketIndex;
+		int marketIndex = 0;
+		Float price;
+		int reserveIndex = -1;
+		Athlete athleteTracker;
 		
 		switch(state) {
 			case TITLESCREEN:         /*Display game name until the user inputs anything*/
@@ -115,11 +118,6 @@ public class GameEnvironment {
 				return GameState.WEEKLYSELECT;
 				
 				
-			case PLAYERPURCHASE:      /*Screen for purchase and placement confirmation*/
-				System.out.print("MADEITHERE\n");
-				break;
-				
-				
 			case WEEKLYSELECT:        /*Display options for weekly actions for player to choose*/
 				playerInputInteger = getPlayerInt(1,4,"\nWhat would you like to do?\n\n1. Go to Club\n2. Go to Stadium\n3. Visit Market\n4. Take a Bye\nEnter choice: ");
 				switch(playerInputInteger) {
@@ -151,8 +149,7 @@ public class GameEnvironment {
 			
 			case SWAPATHLETE:   		  /*display inventory, shows items and their effect and use on an athlete*/
 				int teamIndex = -1;
-				int reserveIndex = -1;
-				if (playerClub.availableReserve()){
+				if (playerClub.availableReserve(0)){
 					System.out.println();
 					for (Athlete athlete : playerClub.getTeam()) {
 						teamIndex+=1;
@@ -173,11 +170,34 @@ public class GameEnvironment {
 				return GameState.CLUBVIEW;
 				
 			case INVENTORY:   		  /*display inventory, shows items and their effect and use on an athlete*/
-				break;
+				int itemIndex = 0;
+				int useIndex;
+				for(Item item : inventory.getInventory()) {
+					System.out.println(itemIndex+". "+item);
+					itemIndex+=1;
+				}
+				useIndex = getPlayerInt(0,itemIndex,"\nEnter number of Item you want to use or "+itemIndex+" to leave:");
+				if(useIndex != itemIndex) {
+					if (!playerClub.availableReserve(-100)) {
+						System.out.println("Everyone seems busy training, better try again with some reserves");
+						return GameState.CLUBVIEW;
+					}
+					for (Athlete athlete : playerClub.getReserve()) {
+						reserveIndex+=1;
+						System.out.println(reserveIndex+": "+athlete);
+					}
+					reserveIndex = getPlayerInt(0,reserveIndex,"\nEnter number of reserve member the item will be used on: ");
+					athleteTracker = playerClub.getReserve().get(reserveIndex);
+					inventory.getInventory().get(useIndex).useItem(athleteTracker);
+					System.out.println("Item used, "+athleteTracker.getName()[1]+" has had their stats changed\n\n"+athleteTracker);
+					inventory.removeItem(inventory.getInventory().get(useIndex));
+					return GameState.INVENTORY;
+				}
+				return GameState.CLUBVIEW;
 				
 				
 			case MARKETSELECT:        /*Choose the athlete store or the item store*/
-				playerInputInteger = getPlayerInt(1,5,"\nWelcome to the Market, Which section?\n\n1. Athlete Purchase\n2. Athlete Drafting\n3. Item Purchase"
+				playerInputInteger = getPlayerInt(1,5,"\nWelcome to the Market, Which section?      You have:"+playerMoney+" Dollars\n\n1. Athlete Purchase\n2. Athlete Drafting\n3. Item Purchase"
 						+ "\n4. Item Drafting\n5. Go Back\nEnter choice: ");
 				switch(playerInputInteger) {
 					case(1):
@@ -197,13 +217,13 @@ public class GameEnvironment {
 				System.out.print("\n Athlete Market\n");
 				
 				marketIndex = playerMarket.printAthleteMarket();
-				playerInputInteger = getPlayerInt(1,marketIndex,"\nEnter index of athlete you want to purchase or "+marketIndex+" to go back: ");
+				playerInputInteger = getPlayerInt(0,marketIndex,"\nEnter index of athlete you want to purchase or "+marketIndex+" to go back: ");
 				if (playerInputInteger == marketIndex) {
 					return GameState.MARKETSELECT;
 				}
 				if(playerMoney >= playerMarket.getAthletePrice(playerInputInteger)) {
-					playerMarket.buyAthlete(playerInputInteger, playerClub);
-					playerMoney -=  playerMarket.getAthletePrice(playerInputInteger);
+					price = playerMarket.buyAthlete(playerInputInteger, playerClub);
+					playerMoney -=  price;
 				} else{
 					System.out.print("\n You haven't got enough money for that!\n");
 					return GameState.ATHLETEMARKET;
@@ -214,21 +234,22 @@ public class GameEnvironment {
 			case DRAFTATHELTE:		  /*allows player to draft players and get some money back*/
 				System.out.print("Here you can draft athletes from reserves\n");
 				int draftReserveIndex = -1;
-				if (playerClub.availableReserve()){
+				if (playerClub.availableReserve(-100)){
 					for (Athlete athlete : playerClub.getReserve()) {
 						draftReserveIndex+=1;
-						System.out.println(draftReserveIndex+": "+athlete);
+						System.out.println(draftReserveIndex+": "+athlete+" --- Cost: "+athlete.getPrice());
 					}
 					draftReserveIndex+=1;
-					playerInputInteger = getPlayerInt(1,draftReserveIndex,"\nEnter index of athlete you want to draft or "+draftReserveIndex+" to go back: ");
-					if (playerInputInteger == draftReserveIndex) {
-						playerMoney+=playerClub.getReserve().get(draftReserveIndex).getPrice();
-						playerClub.reserveRemoveAthlete(playerClub.getReserve().get(draftReserveIndex));
+					playerInputInteger = getPlayerInt(0,draftReserveIndex,"\nEnter index of athlete you want to draft or "+draftReserveIndex+" to go back: ");
+					if (playerInputInteger != draftReserveIndex) {
+						playerMoney += playerClub.getReserve().get(playerInputInteger).getPrice();
+						System.out.print("\nItem market\n");
+						playerClub.reserveRemoveAthlete(playerClub.getReserve().get(playerInputInteger));
 					} else {
 						return GameState.MARKETSELECT;
 					}
 				} else {
-					System.out.println("You don't have any reserves to draft");
+					System.out.println("You don't have any Reserves to draft");
 					return GameState.MARKETSELECT;
 				}
 				return GameState.MARKETSELECT;
@@ -238,16 +259,42 @@ public class GameEnvironment {
 				System.out.print("\nItem market\n");
 				
 				marketIndex = itemMarket.printItemMarket();
-				playerInputInteger = getPlayerInt(1,marketIndex,"\nEnter index of athlete you want to purchase or "+marketIndex+" to go back: ");
+				playerInputInteger = getPlayerInt(0,marketIndex,"\nEnter index of athlete you want to purchase or "+marketIndex+" to go back: ");
 				if (playerInputInteger == marketIndex) {
 					return GameState.MARKETSELECT;
+				} else {
+					if(playerMoney >= itemMarket.getItemPrice(playerInputInteger)) {
+						price = itemMarket.buyItem(playerInputInteger, inventory);
+						playerMoney -=  price;
+					} else{
+						System.out.print("\n You haven't got enough money for that!\n");
+						return GameState.ITEMMARKET;
+					}
 				}
 				
 				return GameState.MARKETSELECT;
 				
 				
 			case DRAFTITEM:			  /*allows player to draft items and get some money back*/
-				System.out.print("MADEITHERE draft item\n");
+				System.out.print("Here you can draft items from your inventory\n");
+				int draftItemIndex = -1;
+				if (inventory.notEmpty()){
+					for (Item item : inventory.getInventory()) {
+						draftItemIndex+=1;
+						System.out.println(draftItemIndex+": "+item+" --- Cost: "+item.getPrice());
+					}
+					draftItemIndex+=1;
+					playerInputInteger = getPlayerInt(0,draftItemIndex,"\nEnter index of the Item you want to draft or "+draftItemIndex+" to go back: ");
+					if (playerInputInteger != draftItemIndex) {
+						playerMoney += inventory.getInventory().get(playerInputInteger).getPrice();
+						inventory.removeItem(inventory.getInventory().get(playerInputInteger));
+					} else {
+						return GameState.MARKETSELECT;
+					}
+				} else {
+					System.out.println("You don't have any Items to draft");
+					return GameState.MARKETSELECT;
+				}
 				return GameState.MARKETSELECT;
 				
 				
@@ -288,10 +335,11 @@ public class GameEnvironment {
 		Club playerClub = new Club();
 		Market playerMarket = new Market(0);
 		Market itemMarket = new Market(1);
+		Inventory inventory = new Inventory();
 		GameState state = GameState.TITLESCREEN;
 		
 		while(state != GameState.GAMEFINISH) { /*run until the game is finished*/
-			state = game.runCurrentState(state, playerClub, playerMarket, itemMarket);
+			state = game.runCurrentState(state, playerClub, playerMarket, itemMarket, inventory);
 		}
 	}
 }

@@ -13,4 +13,19 @@ public class Inventory extends GameEnvironment {
 	public void addItem(Item item) {
 		itemContents.add(item);
 	}
+	
+	public List<Item> getInventory(){
+		return itemContents;
+	}
+	
+	public void removeItem(Item item) {
+		itemContents.remove(item);
+	}
+	
+	public Boolean notEmpty() {
+		for(Item item : itemContents) {
+			return true;
+		}
+		return false;
+	}
 }

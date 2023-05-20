@@ -40,14 +40,22 @@ public class Market extends GameEnvironment {
 		
 	}
 	
-	public void buyAthlete(int index, Club playerClub) {   /*removes athlete from market and adds it to club*/
+	public Float buyAthlete(int index, Club playerClub) {   /*removes athlete from market and adds it to club, returns cost*/
 		Athlete athlete = athleteContents.get(index);
 		playerClub.addAthlete(athlete);
 		athleteContents.remove(athlete);
+		return athlete.getPrice();
 	}
 	
 	public Float getAthletePrice(int index) {           /*returns athlete price*/
 		return athleteContents.get(index).getPrice();
+	}
+	
+	public Float buyItem(int index, Inventory inventory) {   /*removes athlete from market and adds it to club, returns cost*/
+		Item item = itemContents.get(index);
+		inventory.addItem(item);
+		itemContents.remove(item);
+		return item.getPrice();
 	}
 	
 	public Float getItemPrice(int index) {             /*returns item price*/

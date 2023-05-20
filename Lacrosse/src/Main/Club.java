@@ -91,10 +91,10 @@ public class Club extends GameEnvironment {
 		}
 	}
 	
-	public Boolean availableReserve() {   /*returns true if a reserve exists and they have stamina*/
+	public Boolean availableReserve(int stam) {   /*returns true if a reserve exists and they have stamina*/
 		int playerCount = 0;
 		for (Athlete athlete : reserve) {
-			if (athlete.getStats()[2]>0) {
+			if (athlete.getStats()[2]>stam) {
 				playerCount+=1;
 			}
 		}
