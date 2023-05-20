@@ -8,9 +8,10 @@ enum GameState {
 }
 
 public class GameEnvironment {
-	private int curWeek = 0;
+	private int curWeek = 1;
 	private int endWeek = 0;
 	private int difficulty = 2;
+	private float playerMoney = 0;
 	Scanner sc = new Scanner(System.in);
 	
 	/* calling this advances the weeks by one */
@@ -58,14 +59,16 @@ public class GameEnvironment {
 		athlete.setPosition(playerInput);
 	}
 	
-	public Athlete createAthlete() {   				/*creates a randomized athlete based on current week !!!!!(week based not implimented) */
-		int ranAtkStat = (int)Math.floor(Math.random()*(30-15+1) + 15);
-		int ranDefStat = (int)Math.floor(Math.random()*(30-15+1) + 15);
-		Athlete newAthlete = new Athlete(100, ranAtkStat, ranDefStat, 100);
+	public Athlete createAthlete(int curWeek) {   				/*creates a randomized athlete based on current week !!!!!(week based not implimented) */
+		int max = 30+5*curWeek;
+		int ranAtkStat = (int)Math.floor(Math.random()*(max-15+1) + 15);
+		int ranDefStat = (int)Math.floor(Math.random()*(max-15+1) + 15);
+		Athlete newAthlete = new Athlete(30, ranAtkStat, ranDefStat, 100);
+		newAthlete.setPosition(4);
 		return newAthlete;
 	}
 	
-	public GameState runCurrentState(GameState state, Club playerClub) {
+	public GameState runCurrentState(GameState state, Club playerClub, Market playerMarket, Market itemMarket) {
 		String playerInputString = "";
 		Integer playerInputInteger;
 		
@@ -86,15 +89,17 @@ public class GameEnvironment {
 				
 				playerInputInteger = getPlayerInt(1,3,"\nSelect a Difficulty\n\n1. Easy\n2. Normal\n3. Hard\nEnter choice: ");
 				difficulty = playerInputInteger;
+				playerMoney = 1500/difficulty;
 				
 				return GameState.TEAMSETUP;
 				
 				
 			case TEAMSETUP:           /*Purchase Starting athletes and choosing positions*/
 				while (!playerClub.checkTeamFull(playerClub)) {        //loop used for player choosing team members
-					Athlete newAthlete = createAthlete();
+					Athlete newAthlete = createAthlete(curWeek);
 					newAthlete.playerSetPosition(newAthlete);
 					playerClub.addAthlete(newAthlete);
+					playerMoney-=newAthlete.getPrice();
 				}
 				
 				
@@ -159,7 +164,6 @@ public class GameEnvironment {
 				return GameState.CLUBVIEW;
 				
 			case INVENTORY:   		  /*display inventory, shows items and their effect and use on an athlete*/
-				System.out.print("MADEITHERE\n");
 				break;
 				
 				
@@ -180,17 +184,45 @@ public class GameEnvironment {
 				}
 				
 				
-			case ATHLETEMARKET:        /*displays a few athletes 3-5 for purchase and their stats links to player drafting*/
-				System.out.print("MADEITHERE athlete market\n");
+			case ATHLETEMARKET:        /*displays a few athletes 3-5 for purchase and their stats*/
+				System.out.print("\n Athlete Market\n");
+				
+				int marketIndex = playerMarket.printAthleteMarket();
+				playerInputInteger = getPlayerInt(1,marketIndex,"\nEnter index of athlete you want to purchase or "+marketIndex+" to go back: ");
+				if (playerInputInteger == marketIndex) {
+					return GameState.MARKETSELECT;
+				}
+				if(playerMoney >= playerMarket.getAthletePrice(playerInputInteger)) {
+					playerMarket.buyAthlete(playerInputInteger, playerClub);
+					playerMoney -=  playerMarket.getAthletePrice(playerInputInteger);
+				}
 				return GameState.MARKETSELECT;
 				
 				
 			case DRAFTATHELTE:		  /*allows player to draft players and get some money back*/
-				System.out.print("MADEITHERE draft athlete\n");
+				System.out.print("Here you can draft athletes from reserves\n");
+				int draftReserveIndex = -1;
+				if (playerClub.availableReserve()){
+					for (Athlete athlete : playerClub.getReserve()) {
+						draftReserveIndex+=1;
+						System.out.println(draftReserveIndex+": "+athlete);
+					}
+					draftReserveIndex+=1;
+					playerInputInteger = getPlayerInt(1,draftReserveIndex,"\nEnter index of athlete you want to draft or "+draftReserveIndex+" to go back: ");
+					if (playerInputInteger == draftReserveIndex) {
+						playerMoney+=playerClub.getReserve().get(draftReserveIndex).getPrice();
+						playerClub.reserveRemoveAthlete(playerClub.getReserve().get(draftReserveIndex));
+					} else {
+						return GameState.MARKETSELECT;
+					}
+				} else {
+					System.out.println("You don't have any reserves to draft");
+					return GameState.MARKETSELECT;
+				}
 				return GameState.MARKETSELECT;
 				
 				
-			case ITEMMARKET:		  /*displays a few items 3 or more for purchase and their stats links to item drafting */
+			case ITEMMARKET:		  /*displays a few items 3 or more for purchase and their stats*/
 				System.out.print("MADEITHERE item market\n");
 				return GameState.MARKETSELECT;
 				
@@ -232,10 +264,12 @@ public class GameEnvironment {
 	public static void main(String[] args) {
 		GameEnvironment game = new GameEnvironment();
 		Club playerClub = new Club();
+		Market playerMarket = new Market(0);
+		Market itemMarket = new Market(1);
 		GameState state = GameState.TITLESCREEN;
 		
 		while(state != GameState.GAMEFINISH) { /*run until the game is finished*/
-			state = game.runCurrentState(state, playerClub);
+			state = game.runCurrentState(state, playerClub, playerMarket, itemMarket);
 		}
 	}
 }
