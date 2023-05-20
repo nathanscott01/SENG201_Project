@@ -63,7 +63,7 @@ public class Club extends GameEnvironment {
 		return false;
 	}
 	
-	public void printTeam() {
+	public void printTeam() {					/*prints team*/
 		System.out.println("\nForwards:");
 		for (Athlete athlete : team) {
 			if (athlete.getPosition()==1) {
@@ -84,14 +84,14 @@ public class Club extends GameEnvironment {
 		}
 	}
 	
-	public void printReserve() {
+	public void printReserve() {               /*prints reserves*/
 		System.out.println("\n\nReserve:");
 		for (Athlete athlete : reserve) {
 			System.out.println(athlete);
 		}
 	}
 	
-	public Boolean availableReserve() {
+	public Boolean availableReserve() {   /*returns true if a reserve exists and they have stamina*/
 		int playerCount = 0;
 		for (Athlete athlete : reserve) {
 			if (athlete.getStats()[2]>0) {
@@ -105,7 +105,7 @@ public class Club extends GameEnvironment {
 		}
 	}
 	
-	public void positionSwap(Athlete athlete1, Athlete athlete2) {
+	public void positionSwap(Athlete athlete1, Athlete athlete2) {    /*swaps positions of athlete1 and athlete2*/
 		int pos_tracker;
 		pos_tracker = athlete1.getPosition();
 		athlete1.setPosition(athlete2.getPosition());
