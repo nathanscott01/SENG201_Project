@@ -40,12 +40,20 @@ public class Club extends GameEnvironment {
 		return retNum;
 	}
 	
-	public void teamAddAthlete(Athlete athlete) {      	/*Adds given athlete to the Club Team*/
-		team.add(athlete);
+	public void addAthlete(Athlete athlete) {      	/*Adds given athlete to the Club Team*/
+		if (athlete.getPosition()==4) {
+			reserve.add(athlete);
+		} else {
+			team.add(athlete);
+		}
 	}
 	
 	public void teamRemoveAthlete(Athlete athlete) {    /*Removes given athlete from the Club Team*/
 		team.remove(athlete);
+	}
+	
+	public void reserveRemoveAthlete(Athlete athlete) {    /*Removes given athlete from the Club Team*/
+		reserve.remove(athlete);
 	}
 	
 	public Boolean checkTeamFull(Club club) {   /*Checks if the team is full*/
@@ -95,5 +103,16 @@ public class Club extends GameEnvironment {
 		} else {
 			return false;
 		}
+	}
+	
+	public void positionSwap(Athlete athlete1, Athlete athlete2) {
+		int pos_tracker;
+		pos_tracker = athlete1.getPosition();
+		athlete1.setPosition(athlete2.getPosition());
+		athlete2.setPosition(pos_tracker);
+		addAthlete(athlete1);
+		teamRemoveAthlete(athlete1);
+		addAthlete(athlete2);
+		reserveRemoveAthlete(athlete2);
 	}
 }

@@ -54,7 +54,7 @@ public class GameEnvironment {
 	
 	public void playerSetPosition(Athlete athlete) { /*Player sets an athletes position*/
 		Integer playerInput=0;
-		playerInput = getPlayerInt(1, 3, "\nSet Player position (1:Forward, 2:Mid, 3:Defense)\nEnter 1-3: ");
+		playerInput = getPlayerInt(1, 4, "\nSet Player position (1:Forward, 2:Mid, 3:Defense)\nEnter 1-3: ");
 		athlete.setPosition(playerInput);
 	}
 	
@@ -94,7 +94,7 @@ public class GameEnvironment {
 				while (!playerClub.checkTeamFull(playerClub)) {        //loop used for player choosing team members
 					Athlete newAthlete = createAthlete();
 					newAthlete.playerSetPosition(newAthlete);
-					playerClub.teamAddAthlete(newAthlete);
+					playerClub.addAthlete(newAthlete);
 				}
 				
 				
@@ -136,8 +136,27 @@ public class GameEnvironment {
 				break;
 			
 			case SWAPATHLETE:   		  /*display inventory, shows items and their effect and use on an athlete*/
-				System.out.print("MADEITHERE\n");
-				break;
+				int teamIndex = -1;
+				int reserveIndex = -1;
+				if (playerClub.availableReserve()){
+					System.out.println();
+					for (Athlete athlete : playerClub.getTeam()) {
+						teamIndex+=1;
+						System.out.println(teamIndex+": "+athlete);
+					}
+					teamIndex = getPlayerInt(0,teamIndex,"\nEnter number of team member being swapped out: ");
+					System.out.println();
+					for (Athlete athlete : playerClub.getReserve()) {
+						reserveIndex+=1;
+						System.out.println(reserveIndex+": "+athlete);
+					}
+					reserveIndex = getPlayerInt(0,reserveIndex,"\nEnter number of reserve member being swapped out: ");
+					playerClub.positionSwap(playerClub.getTeam().get(teamIndex), playerClub.getReserve().get(reserveIndex));
+				} else {
+					System.out.println("No Available Reserves");
+				}
+				
+				return GameState.CLUBVIEW;
 				
 			case INVENTORY:   		  /*display inventory, shows items and their effect and use on an athlete*/
 				System.out.print("MADEITHERE\n");
