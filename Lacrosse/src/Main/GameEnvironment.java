@@ -12,6 +12,7 @@ public class GameEnvironment {
 	private int endWeek = 0;
 	private int difficulty = 2;
 	private float playerMoney = 0;
+	private int max = 0;
 	Scanner sc = new Scanner(System.in);
 	
 	/* calling this advances the weeks by one */
@@ -60,12 +61,19 @@ public class GameEnvironment {
 	}
 	
 	public Athlete createAthlete(int curWeek) {   				/*creates a randomized athlete based on current week !!!!!(week based not implimented) */
-		int max = 30+5*curWeek;
+		max = 30+5*curWeek;
 		int ranAtkStat = (int)Math.floor(Math.random()*(max-15+1) + 15);
 		int ranDefStat = (int)Math.floor(Math.random()*(max-15+1) + 15);
 		Athlete newAthlete = new Athlete(30, ranAtkStat, ranDefStat, 100);
 		newAthlete.setPosition(4);
 		return newAthlete;
+	}
+	
+	public Item createItem(int curWeek) {
+		max = 70+15*curWeek;
+		int itemCost = (int)Math.floor(Math.random()*(max-40+1) + 40);
+		Item newItem = new Item(itemCost);
+		return newItem;
 	}
 	
 	public GameState runCurrentState(GameState state, Club playerClub, Market playerMarket, Market itemMarket) {

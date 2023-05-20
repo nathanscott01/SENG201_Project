@@ -24,7 +24,7 @@ public class Market extends GameEnvironment {
 		int current = 1;
 		while (current<=itemNumber) {
 			current+=1;
-			//itemContents.add(createItem(weekNum));   -----------------------------------------------------------------------------------------
+			itemContents.add(createItem(weekNum));
 		}
 		
 	}
