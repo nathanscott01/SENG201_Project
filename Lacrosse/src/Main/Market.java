@@ -67,6 +67,7 @@ public class Market extends GameEnvironment {
 		int curIndex = 0;
 		for(Purchasable item : itemContents) {
 			System.out.println(curIndex+". "+item+" --- Cost: "+item.getPrice());
+			curIndex+=1;
 		}
 		return curIndex;
 	}

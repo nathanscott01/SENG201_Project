@@ -79,6 +79,7 @@ public class GameEnvironment {
 	public GameState runCurrentState(GameState state, Club playerClub, Market playerMarket, Market itemMarket) {
 		String playerInputString = "";
 		Integer playerInputInteger;
+		int marketIndex;
 		
 		switch(state) {
 			case TITLESCREEN:         /*Display game name until the user inputs anything*/
@@ -195,7 +196,7 @@ public class GameEnvironment {
 			case ATHLETEMARKET:        /*displays a few athletes 3-5 for purchase and their stats*/
 				System.out.print("\n Athlete Market\n");
 				
-				int marketIndex = playerMarket.printAthleteMarket();
+				marketIndex = playerMarket.printAthleteMarket();
 				playerInputInteger = getPlayerInt(1,marketIndex,"\nEnter index of athlete you want to purchase or "+marketIndex+" to go back: ");
 				if (playerInputInteger == marketIndex) {
 					return GameState.MARKETSELECT;
@@ -203,6 +204,9 @@ public class GameEnvironment {
 				if(playerMoney >= playerMarket.getAthletePrice(playerInputInteger)) {
 					playerMarket.buyAthlete(playerInputInteger, playerClub);
 					playerMoney -=  playerMarket.getAthletePrice(playerInputInteger);
+				} else{
+					System.out.print("\n You haven't got enough money for that!\n");
+					return GameState.ATHLETEMARKET;
 				}
 				return GameState.MARKETSELECT;
 				
@@ -231,7 +235,14 @@ public class GameEnvironment {
 				
 				
 			case ITEMMARKET:		  /*displays a few items 3 or more for purchase and their stats*/
-				System.out.print("MADEITHERE item market\n");
+				System.out.print("\nItem market\n");
+				
+				marketIndex = itemMarket.printItemMarket();
+				playerInputInteger = getPlayerInt(1,marketIndex,"\nEnter index of athlete you want to purchase or "+marketIndex+" to go back: ");
+				if (playerInputInteger == marketIndex) {
+					return GameState.MARKETSELECT;
+				}
+				
 				return GameState.MARKETSELECT;
 				
 				
@@ -241,7 +252,10 @@ public class GameEnvironment {
 				
 				
 			case TAKINGBYE:			  /*skips a week, resetting market and matches, runs a random event*/
-				break;
+				GameState nextState = advanceWeek();
+				playerMarket.resetPlayerMarket(curWeek);
+				itemMarket.resetItemMarket(curWeek);
+				return nextState;
 				
 				
 			case STADIUM:			  /*displays matches for player to choose from*/
