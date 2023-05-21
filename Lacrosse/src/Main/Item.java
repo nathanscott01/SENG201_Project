@@ -1,4 +1,12 @@
 package Main;
+
+/**
+ * 
+ * @author Dominic Dumble, Nathan Scott
+ * 
+ * 
+ *
+ */
 public class Item extends Purchasable{
 	int statChange = 0;
 	int changeType = 0;
