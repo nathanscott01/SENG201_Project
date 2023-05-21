@@ -8,9 +8,17 @@ public class Match extends GameEnvironment{
 	int atkPower = 0;
 	int defPower = 0;
 	
+	
+	private String[] clubNames = new String[] {"Thunderbolts Lacrosse Club", "Venomous Vipers Lacrosse", "Shadowhawkes Lacrosse Society",
+		"Avalanche Lacrosse Alliance", "Eclipse Lacrosse Alliance", "Phoenix Rising Lacrosse", "Iron Wolves Lacrosse", "Stormchasers Lacrosse Club",
+		"Crimson Fury Lacrosse", "Cobalt Corsairs Lacrosse", "Blaze Brigade Lacrosse Club", "Serpentines Lacrosse Society", "Noble Knights Lacrosse",
+		"Whirlwind Warriors Lacrosse", "Zenith Lacrosse Club"};
+	
 	public Match(int curWeek) {
 		enemyClub = new Club();
-		enemyClub.setName("This a Club");
+		int randomClubName = (int)Math.floor(Math.random()*(14) + 1);   //random numbers generated for the athletes name
+		
+		enemyClub.setName(clubNames[randomClubName]);
 		for (int i = 0; i < 2; i++) {
 			Athlete athlete = createAthlete(curWeek);
 			athlete.setPosition(1);
@@ -102,6 +110,6 @@ public class Match extends GameEnvironment{
 	
 	@Override
 	public String toString() {
-		return enemyClub.getName()+": Attack Score-"+atkPower+" || Defence Score-"+defPower+" || Points-"+moneyReward+" || Money-"+pointReward;
+		return enemyClub.getName()+": Attack Score-"+atkPower+" || Defence Score-"+defPower+" || Money Reward-"+moneyReward+" || Point Reward-"+pointReward;
 	}
 }
