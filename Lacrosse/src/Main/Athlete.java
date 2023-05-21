@@ -6,6 +6,7 @@ public class Athlete extends Purchasable {
 	private String name;
 	private String nickname;
 	private int position;
+	private int injuries = 0;
 	
 											/*list of random first and last names used for character creation*/
 	
@@ -63,6 +64,9 @@ public class Athlete extends Purchasable {
 	
 	public Boolean dropStamina(int decrease) {          /*Decreases the Athletes stamina and returns True if stamina drops to 0*/
 		stamina -=decrease;
+		if (stamina<=0) {
+			injuries+=1;
+		}
 		return stamina<=0;
 	}
 	
@@ -76,6 +80,10 @@ public class Athlete extends Purchasable {
 				stamina+=increase;
 			}
 		}
+	}
+	
+	public int getInjuries() {
+		return injuries;
 	}
 
 	@Override
