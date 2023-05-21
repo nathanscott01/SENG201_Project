@@ -32,9 +32,15 @@ public class Club extends GameEnvironment {
 	public int getNumPosition(int position) {		/*returns the number of players in a specified position
 	 												  1:Forward, 2:Mid, 3:Defense*/
 		int retNum=0;
-		for (Athlete athlete : team) {
-			if (athlete.getPosition()==position) {
+		if (position == 4) {
+			for (Athlete athlete : reserve) {
 				retNum+=1;
+			}
+		} else {
+			for (Athlete athlete : team) {
+				if (athlete.getPosition()==position) {
+					retNum+=1;
+				}
 			}
 		}
 		return retNum;
@@ -56,9 +62,47 @@ public class Club extends GameEnvironment {
 		reserve.remove(athlete);
 	}
 	
-	public Boolean checkTeamFull(Club club) {   /*Checks if the team is full*/
-		if (club.getNumPosition(1)==2 & club.getNumPosition(2)==3 & club.getNumPosition(3)==2) {
+	public Boolean checkTeamFull() {   /*Checks if the team is full*/
+		if (getNumPosition(1)==2 & getNumPosition(2)==3 & getNumPosition(3)==2) {
 			return true;
+		}
+		return false;
+	}
+	
+	public Boolean ReserveFull(){
+		if (getNumPosition(4)==5) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public Boolean checkPositionFull(int query) {     /*returns true if position in team is full*/
+		switch(query) {
+		case(1):
+			if (getNumPosition(1)==2) {
+				return true;
+			} else {
+				return false;
+			}
+		case(2):
+			if (getNumPosition(2)==3) {
+				return true;
+			} else {
+				return false;
+			}
+		case(3):
+			if (getNumPosition(3)==2) {
+				return true;
+			} else {
+				return false;
+			}
+		case(4):
+			if (getNumPosition(4)==5) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 		return false;
 	}

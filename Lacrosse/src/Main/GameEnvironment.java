@@ -54,13 +54,17 @@ public class GameEnvironment {
 		endWeek = playerInput;
 	}
 	
-	public void playerSetPosition(Athlete athlete) { /*Player sets an athletes position*/
+	public void initPlayerSetPosition(Athlete athlete, Club playerClub) {
 		Integer playerInput=0;
+		System.out.println("\n"+athlete);
 		playerInput = getPlayerInt(1, 3, "\nSet Player position (1:Forward, 2:Mid, 3:Defense)\nEnter 1-3: ");
+		while(playerClub.checkPositionFull(playerInput)) {
+			playerInput = getPlayerInt(1, 3, "\nWhoops, that position is full.\nEnter 1-3: ");
+		}
 		athlete.setPosition(playerInput);
 	}
 	
-	public Athlete createAthlete(int curWeek) {   				/*creates a randomized athlete based on current week !!!!!(week based not implimented) */
+	public Athlete createAthlete(int curWeek) {   				/*creates a randomized athlete based on current week */
 		max = 30+5*curWeek;
 		int ranAtkStat = (int)Math.floor(Math.random()*(max-15+1) + 15);
 		int ranDefStat = (int)Math.floor(Math.random()*(max-15+1) + 15);
@@ -69,11 +73,19 @@ public class GameEnvironment {
 		return newAthlete;
 	}
 	
-	public Item createItem(int curWeek) {
+	public Item createItem(int curWeek) {                       /*creates randomized item based on current week*/
 		max = 70+15*curWeek;
 		int itemCost = (int)Math.floor(Math.random()*(max-40+1) + 40);
 		Item newItem = new Item(itemCost);
 		return newItem;
+	}
+	
+	public void nameAthlete(Athlete athlete) {
+		System.out.print("\nEnter nickname or just press enter to let them keep their name: ");
+		String playerInputString = sc.nextLine();
+		if (playerInputString!="") {
+			athlete.setNickname(playerInputString);
+		}
 	}
 	
 	public GameState runCurrentState(GameState state, Club playerClub, Market playerMarket, Market itemMarket, Inventory inventory) {
@@ -107,11 +119,12 @@ public class GameEnvironment {
 				
 				
 			case TEAMSETUP:           /*Purchase Starting athletes and choosing positions*/
-				while (!playerClub.checkTeamFull(playerClub)) {        //loop used for player choosing team members
+				while (!playerClub.checkTeamFull()) {        //loop used for player choosing team members
 					Athlete newAthlete = createAthlete(curWeek);
-					newAthlete.playerSetPosition(newAthlete);
+					newAthlete.initPlayerSetPosition(newAthlete, playerClub);
 					playerClub.addAthlete(newAthlete);
 					playerMoney-=newAthlete.getPrice();
+					nameAthlete(newAthlete);
 				}
 				
 				
@@ -172,6 +185,7 @@ public class GameEnvironment {
 			case INVENTORY:   		  /*display inventory, shows items and their effect and use on an athlete*/
 				int itemIndex = 0;
 				int useIndex;
+				System.out.println("Items: ");
 				for(Item item : inventory.getInventory()) {
 					System.out.println(itemIndex+". "+item);
 					itemIndex+=1;
