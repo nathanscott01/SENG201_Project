@@ -1,12 +1,19 @@
 package Main;
 
+/**
+ * The Match Class extends the GameEnvironment Class and generates matches and opposing teams for the
+ * player to compete against. 
+ * 
+ * @author Dominic Dumble, Nathan Scott
+ *
+ */
 public class Match extends GameEnvironment{
 
-	Club enemyClub;
-	int pointReward;
-	int moneyReward;
-	int atkPower = 0;
-	int defPower = 0;
+	Club enemyClub;			// Initialises an enemy club
+	int pointReward;		// Initialises variable for the point reward
+	int moneyReward;		// Money Reward upon winning the match
+	int atkPower = 0;		// Attack Score
+	int defPower = 0;		// Defence Score
 	
 	
 	private String[] clubNames = new String[] {"Thunderbolts Lacrosse Club", "Venomous Vipers Lacrosse", "Shadowhawkes Lacrosse Society",
@@ -14,6 +21,13 @@ public class Match extends GameEnvironment{
 		"Crimson Fury Lacrosse", "Cobalt Corsairs Lacrosse", "Blaze Brigade Lacrosse Club", "Serpentines Lacrosse Society", "Noble Knights Lacrosse",
 		"Whirlwind Warriors Lacrosse", "Zenith Lacrosse Club"};
 	
+	/**
+	 * This function initialises the matches that the player can select from. These matches are randomly generated
+	 * along with the opposing team and the athletes within
+	 * 
+	 * @param curWeek is the current week
+	 * @return void
+	 */
 	public Match(int curWeek) {
 		enemyClub = new Club();
 		int randomClubName = (int)Math.floor(Math.random()*(14) + 1);   //random numbers generated for the athletes name
@@ -46,7 +60,14 @@ public class Match extends GameEnvironment{
 		pointReward=moneyReward*100;
 	}
 	
-	public Boolean playMatch(Club playerClub) { /*returns true if match is won*/
+	/**
+	 * This function "plays" the match. The outcome of the match is done by comparing the stats of each team. 
+	 * The function will return True if the game is won
+	 * 
+	 * @param playerClub is the players Club
+	 * @return Boolean
+	 */
+	public Boolean playMatch(Club playerClub) {
 		int atkTracker = 0;
 		int midTracker = 2;
 		int defTracker = 5;
@@ -100,15 +121,30 @@ public class Match extends GameEnvironment{
 		}
 	}
 	
+	/**
+	 * This function returns the point reward
+	 * 
+	 * @return int
+	 */
 	public int getPoints() {
 		return pointReward;
 	}
 	
+	/**
+	 * This function returns the money won from the game
+	 * 
+	 * @return int
+	 */
 	public int getMoney() {
 		return moneyReward;
 	}
 	
 	@Override
+	/**
+	 * This function returns a string with the outcome of the match
+	 * 
+	 * @return String
+	 */
 	public String toString() {
 		return enemyClub.getName()+": Attack Score-"+atkPower+" || Defence Score-"+defPower+" || Money Reward-"+moneyReward+" || Point Reward-"+pointReward;
 	}

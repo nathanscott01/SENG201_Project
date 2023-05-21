@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"Main","l":"Athlete"},{"p":"Main","l":"Club"},{"p":"Main","l":"GameEnvironment"},{"p":"Main","l":"Inventory"},{"p":"Main","l":"Item"},{"p":"Main","l":"Market"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"Main","l":"Athlete"},{"p":"Main","l":"Club"},{"p":"Main","l":"GameEnvironment"},{"p":"Main","l":"Inventory"},{"p":"Main","l":"Item"},{"p":"Main","l":"Market"},{"p":"Main","l":"Match"}];updateSearchResults();
