@@ -85,6 +85,10 @@ public class Athlete extends Purchasable {
 	public int getInjuries() {
 		return injuries;
 	}
+	
+	public void rest() {
+		stamina = 100;
+	}
 
 	@Override
 	  public String toString() {

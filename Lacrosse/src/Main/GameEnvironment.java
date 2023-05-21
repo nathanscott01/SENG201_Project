@@ -522,6 +522,12 @@ public class GameEnvironment {
 					}
 					RandomEvent event = new RandomEvent();
 					playerInputInteger = (int)Math.floor(Math.random()*(1000) + 1);
+					for (Athlete athlete : playerClub.getTeam()) {
+						athlete.rest();
+					}
+					for (Athlete athlete : playerClub.getReserve()) {
+						athlete.rest();
+					}
 					event.runEvent(playerInputInteger, playerClub);
 					return nextState;
 					
