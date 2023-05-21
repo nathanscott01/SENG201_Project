@@ -434,6 +434,10 @@ public class GameEnvironment {
 					
 				case STADIUM:			  /*displays matches for player to choose from*/
 					max = 0;
+					if (playerClub.cantPlayNow()) {
+						System.out.println(max+"Players on your team are injured right now, maybe take a bye.");
+						return GameState.WEEKLYSELECT;
+					}
 					for (Match match : matches) {
 						System.out.println(max+". "+match);
 						max+=1;

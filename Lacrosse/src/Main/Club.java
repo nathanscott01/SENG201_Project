@@ -149,6 +149,15 @@ public class Club extends GameEnvironment {
 		}
 	}
 	
+	public Boolean cantPlayNow() {
+		for (Athlete athlete : team) {
+			if (athlete.getStats()[2] <= 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void positionSwap(Athlete athlete1, Athlete athlete2) {    /*swaps positions of athlete1 and athlete2*/
 		int pos_tracker;
 		pos_tracker = athlete1.getPosition();
