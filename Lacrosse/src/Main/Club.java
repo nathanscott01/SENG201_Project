@@ -131,15 +131,25 @@ public class Club extends GameEnvironment {
 		return teamFull;
 	}
 	
+	/**
+	 * This function identifies if the reserve list is full or not
+	 * 
+	 * @return reservesFull
+	 */
 	public Boolean ReserveFull(){
+		Boolean reservesFull = false;
 		if (getNumPosition(4)==5) {
-			return true;
-		} else {
-			return false;
+			reservesFull = true;
 		}
+		return reservesFull;
 	}
 	
-	public Boolean checkPositionFull(int query) {     /*returns true if position in team is full*/
+	/**
+	 * This functions determines if a position is full or not on a team
+	 * @param query is the position in question
+	 * @return true, false
+	 */
+	public Boolean checkPositionFull(int query) {
 		switch(query) {
 		case(1):
 			if (getNumPosition(1)==2) {
@@ -169,7 +179,14 @@ public class Club extends GameEnvironment {
 		return false;
 	}
 	
-	public void printTeam() {					/*prints team*/
+	
+	/**
+	 * This function prints the athletes in the team in each position,
+	 * Forwards, Mid and Defence respectively
+	 * 
+	 * @returns void
+	 */
+	public void printTeam() {
 		System.out.println("\nForwards:");
 		for (Athlete athlete : team) {
 			if (athlete.getPosition()==1) {
@@ -190,6 +207,11 @@ public class Club extends GameEnvironment {
 		}
 	}
 	
+	/**
+	 * This function prints the reserves in the team
+	 * 
+	 * @returns void
+	 */
 	public void printReserve() {               /*prints reserves*/
 		System.out.println("\n\nReserve:");
 		for (Athlete athlete : reserve) {
@@ -197,7 +219,13 @@ public class Club extends GameEnvironment {
 		}
 	}
 	
-	public Boolean availableReserve(int stam) {   /*returns true if a reserve exists and they have stamina*/
+	/**
+	 * This function returns whether or not a reserve exists and if they have stamina still
+	 * 
+	 * @param stam will always be passed in as 0. If an athlete has stamina, they can play
+	 * @return true, false
+	 */
+	public Boolean availableReserve(int stam) {
 		int playerCount = 0;
 		for (Athlete athlete : reserve) {
 			if (athlete.getStats()[2]>stam) {
@@ -211,6 +239,10 @@ public class Club extends GameEnvironment {
 		}
 	}
 	
+	/**
+	 * This function checks if am athlete's stamina is less than or equal to 0
+	 * @return true, false
+	 */
 	public Boolean cantPlayNow() {
 		for (Athlete athlete : team) {
 			if (athlete.getStats()[2] <= 0) {
@@ -220,6 +252,13 @@ public class Club extends GameEnvironment {
 		return false;
 	}
 	
+	/**
+	 * This function swaps the position of two athletes
+	 * 
+	 * @param athlete1 to swap
+	 * @param athlete2 to swap
+	 * @return void
+	 */
 	public void positionSwap(Athlete athlete1, Athlete athlete2) {    /*swaps positions of athlete1 and athlete2*/
 		int pos_tracker;
 		pos_tracker = athlete1.getPosition();
