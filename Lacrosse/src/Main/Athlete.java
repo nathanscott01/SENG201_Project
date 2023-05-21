@@ -17,7 +17,7 @@ public class Athlete extends Purchasable {
 												"Kent","Dobble","Devens","Fleming","Jones","Brown","Green","Edgeworth","Lautner",
 												"Timchal","Grayson","North","Strife","Universe","Cheeseman","Yeager","Reynolds",
 												"Gosling","Wick","Vandeley","Hollow","Forger","Tenneson","Higashiyama"};
-	Game Enviroment implements the methods and variables from the Athlete, Market, Club, 
+
 	public Athlete(float cost,int aStat, int dStat, int stam) {
 		super(cost);
 		atkStat = aStat;
