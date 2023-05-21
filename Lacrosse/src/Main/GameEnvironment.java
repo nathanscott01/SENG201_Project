@@ -396,7 +396,10 @@ public class GameEnvironment {
 					 * @return MARKETSELECT or ATHLETEMARKET
 					 */
 					System.out.print("\n Athlete Market\n");
-					
+					if (playerClub.getReserve().size()==5) {
+						System.out.println("Whoops, Your reserves are full, maybe draft someone");
+						return GameState.MARKETSELECT;
+					}
 					marketIndex = playerMarket.printAthleteMarket();
 					playerInputInteger = getPlayerInt(0,marketIndex,"\nEnter index of athlete you want to purchase or "+marketIndex+" to go back: ");
 					if (playerInputInteger == marketIndex) {
@@ -517,6 +520,9 @@ public class GameEnvironment {
 						Match match = new Match(curWeek);
 						matches.add(match);
 					}
+					RandomEvent event = new RandomEvent();
+					playerInputInteger = (int)Math.floor(Math.random()*(1000) + 1);
+					event.runEvent(playerInputInteger, playerClub);
 					return nextState;
 					
 					
@@ -570,6 +576,9 @@ public class GameEnvironment {
 						Match match = new Match(curWeek);
 						matches.add(match);
 					}
+					for (Athlete athlete : playerClub.getTeam()) {
+						athlete.dropStamina(20);
+					}
 					return nextState;
 					
 					
@@ -590,6 +599,9 @@ public class GameEnvironment {
 						marketIndex+=1;
 						Match match = new Match(curWeek);
 						matches.add(match);
+					}
+					for (Athlete athlete : playerClub.getTeam()) {
+						athlete.dropStamina(25);
 					}
 					return nextState;
 					
