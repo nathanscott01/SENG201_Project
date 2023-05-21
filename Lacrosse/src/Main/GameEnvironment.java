@@ -14,9 +14,6 @@ import java.util.Scanner;
  *
  */
 
-/**
- * Represents all the states off the game
- */
 enum GameState {
 	TITLESCREEN, GAMESETUP, TEAMSETUP, WEEKLYSELECT, CLUBVIEW, SWAPATHLETE, INVENTORY, MARKETSELECT,
 	ATHLETEMARKET, DRAFTATHELTE, ITEMMARKET, DRAFTITEM, TAKINGBYE, STADIUM, PLAYMATCH, MATCHWIN, MATCHLOSS,
@@ -162,6 +159,11 @@ public class GameEnvironment {
 	
 
 		/* calling this advances the weeks by one */
+		/**
+		 * This function resets the matches for the following week
+		 * @param matches is the list of matches
+		 * @param curWeek is the current week
+		 */
 		public void resetMatches(List<Match> matches, int curWeek) {
 			matches.clear();
 			int matchNumber = (int)Math.floor(Math.random()*(5-3+1) + 3);
