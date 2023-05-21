@@ -1,14 +1,13 @@
 package Main;
 
 /**
- * 
- * @author Dominic Dumble, Nathan Scott
- * 
  * Athlete Class extends the methods in Purchasable and is used to control the actual individual
  * athletes. The Athlete Class stores the relevant stats of each individual player, their nickname,
  * and position, as well as injuries. Through this class, various methods are available to retrieve
  * information about each athlete.
  *
+ * @author Dominic Dumble, Nathan Scott
+ * 
  */
 
 

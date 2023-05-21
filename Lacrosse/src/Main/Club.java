@@ -3,12 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
- * @author Dominic Dumble, Nathan Scott
- * 
  * Club Class extends the methods in GameEnviroment and controls the team and reserve lists.
  * The Club Class implements methods which swap athletes on and off the team, and in and out of
  * the reserves, as well as displaying who can and can't play in matches
+ *
+ * @author Dominic Dumble, Nathan Scott
  *
  */
 

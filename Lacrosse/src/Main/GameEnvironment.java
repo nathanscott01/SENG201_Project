@@ -4,14 +4,11 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * 
- * @author Dominic Dumble, Nathan Scott
- * 
  * Game Environment is the class used to implement and control the different states of the game
  * Game Environment is extended by the Club, Market and Purchasable classes. Game Environment stores the money available,
  * the length and difficulty of the season, and stores the state of the game.
  * 
- *
+ * @author Dominic Dumble, Nathan Scott
  */
 
 enum GameState {

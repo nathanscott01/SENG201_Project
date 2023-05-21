@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
- * @author Dominic Dumble, Nathan Scott
- * 
  * The Market Class extends Game Environment. In this class, athletes and items to purchase are generated and
  * stored. When the player wishes to purchase something, the athletes and items are found here. There are seperate functions
  * implemented in this class to view the cost of each athlete or item, or to purchase each athlete or item
  *
+ * @author Dominic Dumble, Nathan Scott
+ * 
  */
 public class Market extends GameEnvironment {
 	private List<Athlete> athleteContents;		// List of purchasable Athletes

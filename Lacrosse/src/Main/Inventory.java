@@ -3,12 +3,11 @@ package Main;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- * @author Dominic Dumble, Nathan Scott
- * 
+/** 
  * The Inventory Class extends the GameEnvironment Class and is responsible for controlling all aspects of the inventory
  *
+ * @author Dominic Dumble, Nathan Scott
+ * 
  */
 public class Inventory extends GameEnvironment {
 	private List<Item> itemContents;		// List of items in Inventory

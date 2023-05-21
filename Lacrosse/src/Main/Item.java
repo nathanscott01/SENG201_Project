@@ -1,12 +1,11 @@
 package Main;
 
 /**
- * 
- * @author Dominic Dumble, Nathan Scott
- * 
  * The Item Class extends Purchasable and controls the movement and actions performed on individual items
  * In this class, items are generated randomly, as well as the effects they have on the athlete.
  *
+ * @author Dominic Dumble, Nathan Scott
+ * 
  */
 public class Item extends Purchasable{
 	int statChange = 0;			// The change in the respective stat
