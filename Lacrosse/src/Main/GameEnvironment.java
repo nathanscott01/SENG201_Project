@@ -236,7 +236,9 @@ public class GameEnvironment {
 					return GameState.MARKETSELECT;
 				}
 				if(playerMoney >= playerMarket.getAthletePrice(playerInputInteger)) {
+					nameAthlete(playerMarket.getAthlete(playerInputInteger));
 					price = playerMarket.buyAthlete(playerInputInteger, playerClub);
+					
 					playerMoney -=  price;
 				} else{
 					System.out.print("\n You haven't got enough money for that!\n");
