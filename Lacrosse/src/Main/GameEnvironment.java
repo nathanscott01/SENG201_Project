@@ -160,17 +160,7 @@ public class GameEnvironment {
 		}
 	}
 	
-	/**
-	 * Gamestate controls the state of the game
-	 * 
-	 * @param state is from the enum Gamestate set
-	 * @param playerClub is an object of the class Club
-	 * @param playerMarket is an object of the class Market
-	 * @param itemMarket is an object of the class Market
-	 * @param inventory is an object of the class Inventory
-	 * @return
-	 */
-		
+
 		/* calling this advances the weeks by one */
 		public void resetMatches(List<Match> matches, int curWeek) {
 			matches.clear();
@@ -183,6 +173,16 @@ public class GameEnvironment {
 			}
 		}
 		
+		/**
+		 * Gamestate controls the state of the game
+		 * 
+		 * @param state is from the enum Gamestate set
+		 * @param playerClub is an object of the class Club
+		 * @param playerMarket is an object of the class Market
+		 * @param itemMarket is an object of the class Market
+		 * @param inventory is an object of the class Inventory
+		 * @return
+		 */
 		public GameState runCurrentState(GameState state, Club playerClub, Market playerMarket, Market itemMarket, Inventory inventory, List<Match> matches) {
 			String playerInputString = "";
 			Integer playerInputInteger;
@@ -193,13 +193,24 @@ public class GameEnvironment {
 			GameState nextState;
 			
 			switch(state) {
-				case TITLESCREEN:         /*Display game name until the user inputs anything*/
+				case TITLESCREEN:
+					/**
+					 * Displays the title screen, stays in this state until player inputs something
+					 * @returns the next state, GAMESETUP
+					 */
 					System.out.print("LACROSSE\n\nenter anything to start: ");
 					playerInputString = sc.nextLine();
 					return GameState.GAMESETUP;
 					
 					
-				case GAMESETUP:           /*Set up club name, week number, difficulty*/
+				case GAMESETUP:
+					/**
+					 * Displays a screen and input section for the player to setup game with Club name, 
+					 * select game difficulty, allocates money inversely proportionately to the difficulty,
+					 * select the length of the season, and setup a match for the first week
+					 * 
+					 * @returns the next state, TEAMSETUP
+					 */
 					System.out.println("Set Up Your Club\n");
 					System.out.print("Enter a Club name (3-15 characters): ");
 					
@@ -223,7 +234,18 @@ public class GameEnvironment {
 					return GameState.TEAMSETUP;
 					
 					
-				case TEAMSETUP:           /*Purchase Starting athletes and choosing positions*/
+				case TEAMSETUP:
+					/**
+					 * Displays a window for the player to setup the team, player can choose team members in this state
+					 * until the team is full. Within each team, there is a set number of slots available for each position,
+					 * so the player is limited with regards to how many players they can assign to each position.
+					 * Game will stay in TEAMSETUP state until the team is full.
+					 * 
+					 * The Club Class is accessed in this state to check the number of players in the team
+					 * The Athlete Class is accessed in this state to initialise individual athletes and to assign nicknames
+					 * 
+					 * @returns the WEEKLYSELECT state when team is full
+					 */
 					while (!playerClub.checkTeamFull()) {        //loop used for player choosing team members
 						Athlete newAthlete = createAthlete(curWeek);
 						newAthlete.initPlayerSetPosition(newAthlete, playerClub);
@@ -236,7 +258,13 @@ public class GameEnvironment {
 					return GameState.WEEKLYSELECT;
 					
 					
-				case WEEKLYSELECT:        /*Display options for weekly actions for player to choose*/
+				case WEEKLYSELECT:
+					/**
+					 * Player views a window in this state with all the possible options between games. Player puts in an input
+					 * to choose which state to go to next.
+					 * 
+					 * @returns CLUBVIEW, STADIUM, MARKETSELECT or TAKINGBYE upon player input
+					 */
 					playerInputInteger = getPlayerInt(1,4,"\nWhat would you like to do?\n\n1. Go to Club\n2. Go to Stadium\n3. Visit Market\n4. Take a Bye\nEnter choice: ");
 					switch(playerInputInteger) {
 						case(1):
@@ -250,7 +278,12 @@ public class GameEnvironment {
 					}
 					
 					
-				case CLUBVIEW:            /*View club properties. club name, athletes and properties, inventory*/
+				case CLUBVIEW:
+					/**
+					 * Displays a window with the Club name, with a list of the team players and a list of reserves
+					 * 
+					 * @returns INVENTORY, SWAPATHLETE or WEEKLYSELECT based on player input
+					 */
 					System.out.println("\nClub Name: "+playerClub.getName()+"\n");
 					playerClub.printTeam();
 					playerClub.printReserve();
