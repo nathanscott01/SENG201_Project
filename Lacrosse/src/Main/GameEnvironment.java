@@ -1,6 +1,20 @@
 package Main;
 import java.util.Scanner;
 
+/**
+ * 
+ * @author Dominic Dumble, Nathan Scott
+ * 
+ * Game Environment is the class used to implement and control the different states of the game
+ * Game Environment is extended by the Club, Market and Purchasable classes. Game Environment stores the money available,
+ * the length and difficulty of the season, and stores the state of the game.
+ * 
+ *
+ */
+
+/**
+ * Represents all the states off the game
+ */
 enum GameState {
 	TITLESCREEN, GAMESETUP, TEAMSETUP, WEEKLYSELECT, CLUBVIEW, SWAPATHLETE, INVENTORY, MARKETSELECT,
 	ATHLETEMARKET, DRAFTATHELTE, ITEMMARKET, DRAFTITEM, TAKINGBYE, STADIUM, PLAYMATCH, MATCHWIN, MATCHLOSS,
@@ -15,16 +29,25 @@ public class GameEnvironment {
 	private int max = 0;
 	Scanner sc = new Scanner(System.in);
 	
-	/* calling this advances the weeks by one */
+	/**
+	 *  calling this advances the weeks by one 
+	 */
 	public GameState advanceWeek() {
 		curWeek +=1;
-		if (curWeek > endWeek){   /*ends game if end week reached */
+		// Checks if the current week exceeds season length, ends game if this is the case
+		if (curWeek > endWeek){
 			return GameState.RESULTSCREEN;
 		}
 		return GameState.WEEKLYSELECT;
 	}
 	
-	public void setClubName(String playerInput, Club playerClub) {     /*takes input until one can be set as club name*/
+	/**
+	 * Player input will be used to set the name of the club
+	 * 
+	 * @param playerInput User inputs their own string
+	 * @param playerClub is a Club Class, generated previously
+	 */
+	public void setClubName(String playerInput, Club playerClub) {
 		playerInput = sc.nextLine();
 		while ((playerInput.length()<3) | (playerInput.length()>15)){
 			System.out.print("\nname must be 3-15 characters: ");
@@ -33,6 +56,17 @@ public class GameEnvironment {
 		playerClub.setName(playerInput);
 	}
 	
+	
+	/**
+	 * getPlayerInt function is used as a general function, where the game asks the user for
+	 * a number between min and max. This function is used when selecting a player to draft or purchase, or to select
+	 * a player from the team, or to select items.
+	 * 
+	 * @param min is the minimum index allowed by the system
+	 * @param max is the maximum index allowed for the player to select
+	 * @param prompt is the prompt relevant to whatever the player is selecting
+	 * @return
+	 */
 	public int getPlayerInt(Integer min, Integer max, String prompt) {   /*gets player input int between min and max*/
 		Integer playerInput=-1;
 		while ((playerInput<min) | (playerInput>max)){
@@ -40,6 +74,7 @@ public class GameEnvironment {
 			try {
 		        playerInput= Integer.parseInt(sc.nextLine());
 		    } catch (NumberFormatException e) {
+//		    	 Returns -1 ???????
 		    }
 			if ((playerInput<min) | (playerInput>max)){
 				System.out.println("Error! Must be an integer between "+min+" and "+max);
@@ -48,12 +83,23 @@ public class GameEnvironment {
 		return playerInput;
 	}
 	
+	/**
+	 * Takes the user input and sets it as the season length
+	 */
 	public void setSeasonLength() {           	   /*takes input until one can be set as endWeek*/
 		Integer playerInput=0;
 		playerInput = getPlayerInt(5, 15, "\nhow many weeks will the season last (5-15): ");
 		endWeek = playerInput;
 	}
 	
+	
+	/**
+	 * initPlayerSetPosition sets the position of the selected athlete on the team. The team is checked via the Club class
+	 * to see if the position selected by the player is still available
+	 * 
+	 * @param athlete is an Athlete Class object, without the position parameter set
+	 * @param playerClub a Club Class object, which is used to check if the input position is still available in the team
+	 */
 	public void initPlayerSetPosition(Athlete athlete, Club playerClub) {
 		Integer playerInput=0;
 		System.out.println("\n"+athlete);
@@ -64,7 +110,14 @@ public class GameEnvironment {
 		athlete.setPosition(playerInput);
 	}
 	
-	public Athlete createAthlete(int curWeek) {   				/*creates a randomized athlete based on current week */
+	
+	/**
+	 * createAthlete() is used to generate a new athlete for the team if the team is not full
+	 * 
+	 * @param curWeek is the current week of the season
+	 * @return
+	 */
+	public Athlete createAthlete(int curWeek) {
 		max = 30+5*curWeek;
 		int ranAtkStat = (int)Math.floor(Math.random()*(max-15+1) + 15);
 		int ranDefStat = (int)Math.floor(Math.random()*(max-15+1) + 15);
@@ -73,13 +126,28 @@ public class GameEnvironment {
 		return newAthlete;
 	}
 	
-	public Item createItem(int curWeek) {                       /*creates randomized item based on current week*/
+	
+	/**
+	 * createItem(curWeek) generates a new item each week, with its maximum price increasing proportionately
+	 * with each week in the season
+	 * 
+	 * @param curWeek is the current week of the season
+	 * @return
+	 */
+	public Item createItem(int curWeek) {
 		max = 70+15*curWeek;
 		int itemCost = (int)Math.floor(Math.random()*(max-40+1) + 40);
 		Item newItem = new Item(itemCost);
 		return newItem;
 	}
 	
+	
+	/**
+	 * nameAthlete is called to let the player to create a nick name for the athlete. If no input is received,
+	 * the athletes listed name is the one generated by the game.
+	 * 
+	 * @param athlete is an object of the Athlete Class without the nickname set
+	 */
 	public void nameAthlete(Athlete athlete) {
 		System.out.print("\nEnter nickname or just press enter to let them keep their name: ");
 		String playerInputString = sc.nextLine();
@@ -88,6 +156,17 @@ public class GameEnvironment {
 		}
 	}
 	
+	
+	/**
+	 * Gamestate controls the state of the game
+	 * 
+	 * @param state is from the enum Gamestate set
+	 * @param playerClub is an object of the class Club
+	 * @param playerMarket is an object of the class Market
+	 * @param itemMarket is an object of the class Market
+	 * @param inventory is an object of the class Inventory
+	 * @return
+	 */
 	public GameState runCurrentState(GameState state, Club playerClub, Market playerMarket, Market itemMarket, Inventory inventory) {
 		String playerInputString = "";
 		Integer playerInputInteger;
