@@ -298,7 +298,14 @@ public class GameEnvironment {
 				}
 					break;
 				
-				case SWAPATHLETE:   		  /*display inventory, shows items and their effect and use on an athlete*/
+				case SWAPATHLETE:
+					/**
+					 * Displays a window where the player can swap the athlete out. Player inputs the index of the team member 
+					 * they want to swap out, and then enters the index of the reserve they want to swap in. If there is no available
+					 * reserves, an error message will be displayed.
+					 * 
+					 * @returns CLUBVIEW
+					 */
 					int teamIndex = -1;
 					if (playerClub.availableReserve(0)){
 						System.out.println();
@@ -320,7 +327,14 @@ public class GameEnvironment {
 					
 					return GameState.CLUBVIEW;
 					
-				case INVENTORY:   		  /*display inventory, shows items and their effect and use on an athlete*/
+				case INVENTORY:
+					/**
+					 * Opens a window where the player can view the items in the inventory. Player selects the item of
+					 * what they want to select, and then select the athlete to use the item on. The athlete that the item is used on
+					 * will be displayed along with the changed stats. Item is then removed from inventory
+					 * 
+					 * @returns CLUBVIEW or INVENTORY
+					 */
 					int itemIndex = 0;
 					int useIndex;
 					System.out.println("Items: ");
@@ -348,7 +362,14 @@ public class GameEnvironment {
 					return GameState.CLUBVIEW;
 					
 					
-				case MARKETSELECT:        /*Choose the athlete store or the item store*/
+				case MARKETSELECT:
+					/**
+					 * Displays a window where the available money is shown, along with the options available from the market.
+					 * The player can either go to athlete market, or draft an athlete, go to item market, draft an item, or go to
+					 * WEEKLYSELECT window
+					 * 
+					 * @returns ATHLETEMARKET, DRAFTATHLETE, ITEMMARKET, DRAFTITEM or WEEKLYSELECT
+					 */
 					playerInputInteger = getPlayerInt(1,5,"\nWelcome to the Market, Which section?      You have:"+playerMoney+" Dollars\n\n1. Athlete Purchase\n2. Athlete Drafting\n3. Item Purchase"
 							+ "\n4. Item Drafting\n5. Go Back\nEnter choice: ");
 					switch(playerInputInteger) {
@@ -365,7 +386,15 @@ public class GameEnvironment {
 					}
 					
 					
-				case ATHLETEMARKET:        /*displays a few athletes 3-5 for purchase and their stats*/
+				case ATHLETEMARKET:
+					/**
+					 * Opens a window for the Athlete Market, where several (3-5) athletes are available for purchase. Player
+					 * selects which athlete they would like to purchase, or they can navigate back to the MARKETSELECT window.
+					 * If the funds are available for the selected athlete, then it is purchased. If not, an error message will
+					 * be displayed
+					 * 
+					 * @return MARKETSELECT or ATHLETEMARKET
+					 */
 					System.out.print("\n Athlete Market\n");
 					
 					marketIndex = playerMarket.printAthleteMarket();
@@ -383,7 +412,14 @@ public class GameEnvironment {
 					return GameState.MARKETSELECT;
 					
 					
-				case DRAFTATHELTE:		  /*allows player to draft players and get some money back*/
+				case DRAFTATHELTE:
+					/**
+					 * Opens a window where the player can draft out reserve athletes. If there are no reserves available,
+					 * this will be displayed to the player. When the chosen athletes are drafted out, the player is navigated
+					 * back to the market
+					 * 
+					 * @returns MARKETSELECT
+					 */
 					System.out.print("Here you can draft athletes from reserves\n");
 					int draftReserveIndex = -1;
 					if (playerClub.availableReserve(-100)){
@@ -407,11 +443,18 @@ public class GameEnvironment {
 					return GameState.MARKETSELECT;
 					
 					
-				case ITEMMARKET:		  /*displays a few items 3 or more for purchase and their stats*/
+				case ITEMMARKET:
+					/**
+					 * Opens a window where the player can purchase an item, or can navigate back to the market. Player
+					 * chooses which item they want to purchase. If sufficient funds are available, then the item is added to 
+					 * inventory, or else an error message is displayed
+					 * 
+					 * @returns MARKETSELECT or ITEMMARKET
+					 */
 					System.out.print("\nItem market\n");
 					
 					marketIndex = itemMarket.printItemMarket();
-					playerInputInteger = getPlayerInt(0,marketIndex,"\nEnter index of athlete you want to purchase or "+marketIndex+" to go back: ");
+					playerInputInteger = getPlayerInt(0,marketIndex,"\nEnter index of the item you want to purchase or "+marketIndex+" to go back: ");
 					if (playerInputInteger == marketIndex) {
 						return GameState.MARKETSELECT;
 					} else {
@@ -427,7 +470,14 @@ public class GameEnvironment {
 					return GameState.MARKETSELECT;
 					
 					
-				case DRAFTITEM:			  /*allows player to draft items and get some money back*/
+				case DRAFTITEM:
+					/**
+					 * Player can sell back items in the inventory and get some money back if there are items still available
+					 * in their inventory. Player can keep drafting items in the inventory until either inventory is empty,
+					 * or they choose to go back to the Market window.
+					 * 
+					 * @returns MARKETSELECT
+					 */
 					System.out.print("Here you can draft items from your inventory\n");
 					int draftItemIndex = -1;
 					if (inventory.notEmpty()){
@@ -450,7 +500,12 @@ public class GameEnvironment {
 					return GameState.MARKETSELECT;
 					
 					
-				case TAKINGBYE:			  /*skips a week, resetting market and matches, runs a random event*/
+				case TAKINGBYE:
+					/**
+					 * Current week is advanced in this state, and the available athletes and items for purchase are refreshed.
+					 * 
+					 * @returns advanceWeek(), which leads to either RESULTSCREEN or WEEKLYSELECT
+					 */
 					nextState = advanceWeek();
 					playerMarket.resetPlayerMarket(curWeek);
 					itemMarket.resetItemMarket(curWeek);
@@ -465,7 +520,13 @@ public class GameEnvironment {
 					return nextState;
 					
 					
-				case STADIUM:			  /*displays matches for player to choose from*/
+				case STADIUM:
+					/**
+					 * In this state, the athletes are checked for injury. If the athletes can play, a list of matches is made
+					 * available to the player, where they can select which one to play. Match is then played
+					 * 
+					 * @returns WEEKLYSELECT, MATCHWIN, MATCHLOSS
+					 */
 					max = 0;
 					if (playerClub.cantPlayNow()) {
 						System.out.println(max+"Players on your team are injured right now, maybe take a bye.");
@@ -488,7 +549,13 @@ public class GameEnvironment {
 					}
 					
 					
-				case MATCHWIN:			  /*display victory screen if player wins match*/
+				case MATCHWIN:
+					/**
+					 * In this state, a banner is displayed saying "YOU WON!". Points are updated, and so is the cash reserves. 
+					 * The week is advanced, player & item market is refreshed. Match list is cleared, and a new list is generated.
+					 * 
+					 * @returns advanceWeek()
+					 */
 					System.out.println("YOU WON!");
 					playerPoints += matches.get(matchTracker).getPoints();
 					playerMoney += matches.get(matchTracker).getMoney();
@@ -506,7 +573,12 @@ public class GameEnvironment {
 					return nextState;
 					
 					
-				case MATCHLOSS:			  /*display loss screen if player loses*/
+				case MATCHLOSS:
+					/**
+					 * Player is humiliated for their loss in this state, and player, items and matches are reset. 
+					 * 
+					 * @returns advanceWeek()
+					 */
 					System.out.println("YOU LOST!");
 					nextState = advanceWeek();
 					playerMarket.resetPlayerMarket(curWeek);
@@ -522,7 +594,12 @@ public class GameEnvironment {
 					return nextState;
 					
 					
-				case RESULTSCREEN:		  /*display the overall result as the player has run out of weeks or athletes*/
+				case RESULTSCREEN:
+					/** 
+					 * Player is navigated to this state where the final results are shown, and then the season finishes
+					 * 
+					 * @returns GAMEFINISH
+					 */
 					System.out.println("GAME OVER\n\nYou Scored "+playerPoints+" points");
 					return GameState.GAMEFINISH;
 					
