@@ -31,7 +31,6 @@ public class Item extends Purchasable{
 	 * This function is implemented so that the athlete can consume or use the item.
 	 * This function increases the respective stat of the athlete
 	 * @param athlete is the athlete that will be using the item
-	 * @return void
 	 */
 	public void useItem(Athlete athlete) {
 		athlete.statIncrease(changeType, statChange);

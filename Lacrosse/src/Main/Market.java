@@ -22,7 +22,6 @@ public class Market extends GameEnvironment {
 	 * are added to the athleteContents List
 	 * 
 	 * @param weekNum is the number of weeks into the competition
-	 * @return void
 	 */
 	public void resetPlayerMarket(int weekNum) {
 		athleteContents.clear();
@@ -40,7 +39,6 @@ public class Market extends GameEnvironment {
 	 * item is proportional to the week number. As a new item is generated, it is then added to the itemList
 	 * 
 	 * @param weekNum is the week number
-	 * @return void
 	 */
 	public void resetItemMarket(int weekNum) {
 		itemContents.clear();
@@ -58,7 +56,6 @@ public class Market extends GameEnvironment {
 	 * the respective market is reset.
 	 * 
 	 * @param type is an integer referring to either the athlete market or the item market
-	 * @return void
 	 */
 	public Market(int type) {
 		if (type == 0) {

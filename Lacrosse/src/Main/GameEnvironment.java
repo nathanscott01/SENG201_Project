@@ -3,6 +3,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+enum GameState {
+	TITLESCREEN, GAMESETUP, TEAMSETUP, WEEKLYSELECT, CLUBVIEW, SWAPATHLETE, INVENTORY, MARKETSELECT,
+	ATHLETEMARKET, DRAFTATHELTE, ITEMMARKET, DRAFTITEM, TAKINGBYE, STADIUM, PLAYMATCH, MATCHWIN, MATCHLOSS,
+	RESULTSCREEN, GAMEFINISH
+}
+
 /**
  * Game Environment is the class used to implement and control the different states of the game
  * Game Environment is extended by the Club, Market and Purchasable classes. Game Environment stores the money available,
@@ -11,13 +17,6 @@ import java.util.Scanner;
  * @author Dominic Dumble, Nathan Scott
  * 
  */
-
-enum GameState {
-	TITLESCREEN, GAMESETUP, TEAMSETUP, WEEKLYSELECT, CLUBVIEW, SWAPATHLETE, INVENTORY, MARKETSELECT,
-	ATHLETEMARKET, DRAFTATHELTE, ITEMMARKET, DRAFTITEM, TAKINGBYE, STADIUM, PLAYMATCH, MATCHWIN, MATCHLOSS,
-	RESULTSCREEN, GAMEFINISH
-}
-
 public class GameEnvironment {
 	private int curWeek = 1;
 	private int endWeek = 0;
@@ -29,7 +28,9 @@ public class GameEnvironment {
 	Scanner sc = new Scanner(System.in);
 	
 	/**
-	 *  calling this advances the weeks by one 
+	 *  Calling this function advances the weeks by one 
+	 *  
+	 *  @return GameState
 	 */
 	public GameState advanceWeek() {
 		curWeek +=1;
@@ -64,7 +65,7 @@ public class GameEnvironment {
 	 * @param min is the minimum index allowed by the system
 	 * @param max is the maximum index allowed for the player to select
 	 * @param prompt is the prompt relevant to whatever the player is selecting
-	 * @return
+	 * @return int
 	 */
 	public int getPlayerInt(Integer min, Integer max, String prompt) {   /*gets player input int between min and max*/
 		Integer playerInput=-1;
@@ -114,7 +115,7 @@ public class GameEnvironment {
 	 * createAthlete() is used to generate a new athlete for the team if the team is not full
 	 * 
 	 * @param curWeek is the current week of the season
-	 * @return
+	 * @return Athlete
 	 */
 	public Athlete createAthlete(int curWeek) {
 		max = 30+5*curWeek;
@@ -131,7 +132,7 @@ public class GameEnvironment {
 	 * with each week in the season
 	 * 
 	 * @param curWeek is the current week of the season
-	 * @return
+	 * @return Item
 	 */
 	public Item createItem(int curWeek) {
 		max = 70+15*curWeek;
@@ -181,7 +182,8 @@ public class GameEnvironment {
 		 * @param playerMarket is an object of the class Market
 		 * @param itemMarket is an object of the class Market
 		 * @param inventory is an object of the class Inventory
-		 * @return
+		 * @param matches is list of available matches
+		 * @return GameState
 		 */
 		public GameState runCurrentState(GameState state, Club playerClub, Market playerMarket, Market itemMarket, Inventory inventory, List<Match> matches) {
 			String playerInputString = "";
@@ -626,7 +628,11 @@ public class GameEnvironment {
 			}
 			return GameState.GAMEFINISH;
 		}
-	
+		/**
+		 * This function runs the game
+		 * 
+		 * @param args
+		 */
 	public static void main(String[] args) {
 		GameEnvironment game = new GameEnvironment();
 		Club playerClub = new Club();

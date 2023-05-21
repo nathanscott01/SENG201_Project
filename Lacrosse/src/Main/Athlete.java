@@ -60,7 +60,6 @@ public class Athlete extends Purchasable {
 	 * This function takes the player input to select the position of the athlete
 	 * 
 	 * @param playerInput is an integer representing the desired position for the athlete
-	 * @return void
 	 */
 	public void setPosition(int playerInput) {
 		position = playerInput;
@@ -71,7 +70,6 @@ public class Athlete extends Purchasable {
 	 * will be displayed in place of the name for the duration of the name
 	 * 
 	 * @param word is the string assigned to the nickname
-	 * @return void
 	 */
 	public void setNickname(String word) {
 		nickname = word;
@@ -96,7 +94,7 @@ public class Athlete extends Purchasable {
 	 * 
 	 * @return String[] with the two names
 	 */
-	public String[] getName() {		  //returned as a list of name and nickname
+	public String[] getName() {
 		String[] retArray = new String[2];
 		retArray[0] = name;
 		retArray[1] = nickname;
@@ -117,9 +115,10 @@ public class Athlete extends Purchasable {
 	 * This function decreases the stamina of the athlete. If the stamina drops below 0, the injury count of the athlete
 	 * will increase by 1
 	 * 
-	 * @return stamina <= 0
+	 * @param decrease is the ammount to decrease the athletes stamina by
+	 * @return Boolean
 	 */
-	public Boolean dropStamina(int decrease) {          /*Decreases the Athletes stamina and returns True if stamina drops to 0*/
+	public Boolean dropStamina(int decrease) {
 		stamina -=decrease;
 		if (stamina<=0) {
 			injuries+=1;
@@ -132,9 +131,8 @@ public class Athlete extends Purchasable {
 	 * 
 	 * @param stat selects which stat to increase
 	 * @param increase will increase the chosen stat by the amount defined
-	 * @return void
 	 */
-	public void statIncrease(int stat, int increase) {   /*Used when an item is used for stat increase*/
+	public void statIncrease(int stat, int increase) {
 		if(stat==0) {
 			atkStat+=increase;
 		} else{
@@ -158,8 +156,6 @@ public class Athlete extends Purchasable {
 	
 	/**
 	 * This function replenishes the athletes stamina to 100
-	 * 
-	 * @return void
 	 */
 	public void rest() {
 		stamina = 100;

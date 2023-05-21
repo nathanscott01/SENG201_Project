@@ -37,7 +37,6 @@ public class Club extends GameEnvironment {
 	/**
 	 * Sets the name of the club
 	 * @param newName is the name to assign to the Club
-	 * @return void
 	 */
 	public void setName(String newName) {
 		clubName = newName;
@@ -86,7 +85,6 @@ public class Club extends GameEnvironment {
 	 * This function adds the given athlete to the team
 	 * 
 	 * @param athlete to add to team
-	 * @return void
 	 */
 	public void addAthlete(Athlete athlete) {
 		if (athlete.getPosition()==4) {
@@ -101,7 +99,6 @@ public class Club extends GameEnvironment {
 	 * This function removes the athlete from the team
 	 * 
 	 * @param athlete is the respective athlete to remove
-	 * @return void
 	 */
 	public void teamRemoveAthlete(Athlete athlete) {
 		team.remove(athlete);
@@ -111,7 +108,6 @@ public class Club extends GameEnvironment {
 	 * This function removes the respective athlete from the reserves
 	 * 
 	 * @param athlete is the respective athlete to remove
-	 * @return void
 	 */
 	public void reserveRemoveAthlete(Athlete athlete) {
 		reserve.remove(athlete);
@@ -183,7 +179,6 @@ public class Club extends GameEnvironment {
 	 * This function prints the athletes in the team in each position,
 	 * Forwards, Mid and Defence respectively
 	 * 
-	 * @returns void
 	 */
 	public void printTeam() {
 		System.out.println("\nForwards:");
@@ -208,8 +203,6 @@ public class Club extends GameEnvironment {
 	
 	/**
 	 * This function prints the reserves in the team
-	 * 
-	 * @returns void
 	 */
 	public void printReserve() {               /*prints reserves*/
 		System.out.println("\n\nReserve:");
@@ -256,7 +249,6 @@ public class Club extends GameEnvironment {
 	 * 
 	 * @param athlete1 to swap
 	 * @param athlete2 to swap
-	 * @return void
 	 */
 	public void positionSwap(Athlete athlete1, Athlete athlete2) {    /*swaps positions of athlete1 and athlete2*/
 		int pos_tracker;

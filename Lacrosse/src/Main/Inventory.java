@@ -24,7 +24,6 @@ public class Inventory extends GameEnvironment {
 	 * This function adds items to the inventory
 	 * 
 	 * @param item is the item to be added
-	 * @return void
 	 */
 	public void addItem(Item item) {
 		itemContents.add(item);
@@ -42,7 +41,6 @@ public class Inventory extends GameEnvironment {
 	 * This function removes the item from the inventory
 	 * 
 	 * @param item is the item to remove
-	 * @return void
 	 */
 	public void removeItem(Item item) {
 		itemContents.remove(item);

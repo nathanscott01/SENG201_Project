@@ -12,7 +12,6 @@ public class Purchasable extends GameEnvironment {
 	 * This function assigns the cost to the price
 	 * 
 	 * @param cost is the price
-	 * @return void
 	 */
 	public Purchasable(float cost){
 		price = cost;

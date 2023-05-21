@@ -26,7 +26,6 @@ public class Match extends GameEnvironment{
 	 * along with the opposing team and the athletes within
 	 * 
 	 * @param curWeek is the current week
-	 * @return void
 	 */
 	public Match(int curWeek) {
 		enemyClub = new Club();
