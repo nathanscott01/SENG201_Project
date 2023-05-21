@@ -1,9 +1,24 @@
 package Main;
 
+/**
+ * The RandomEvent Class extends the GameEnvironment Class and implements random actions
+ * on the club and its athletes throughout the game
+ * 
+ * @author Dominic Dumble, Nathan Scott
+ *
+ */
 public class RandomEvent extends GameEnvironment {
 	String eventDescription;
 	int chanceValue;
 	
+	/**
+	 * This function will randomly either increase the stats of certain athletes in the team, or the athlete
+	 * will randomly leave the team
+	 * 
+	 * @param randomNum is the random integer generated that determines the outcome of the random events
+	 * @param playerClub is the Club
+	 * @return String
+	 */
 	public String runEvent(int randomNum, Club playerClub) {
 		if (randomNum<900) {
 			randomNum=1;
@@ -14,6 +29,11 @@ public class RandomEvent extends GameEnvironment {
 			randomNum=3;
 		}
 		switch(randomNum){
+		/*
+		 * Case 1: Athlete stats increase
+		 * Case 2: Athlete leaves team
+		 * Case 3: New Athlete added to reserves
+		 */
 		case(1):
 			for(Athlete athlete : playerClub.getTeam()) {
 				chanceValue = (int)Math.floor(Math.random()*(100)+1);
