@@ -9,6 +9,7 @@ import java.util.Scanner;
  * the length and difficulty of the season, and stores the state of the game.
  * 
  * @author Dominic Dumble, Nathan Scott
+ * 
  */
 
 enum GameState {
