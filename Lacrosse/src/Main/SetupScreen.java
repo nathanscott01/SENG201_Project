@@ -83,7 +83,7 @@ public class SetupScreen {
 		JSlider slider = new JSlider();
 		slider.setMaximum(15);
 		slider.setMinimum(5);
-		slider.setBounds(289, 205, 257, 16);
+		slider.setBounds(289, 203, 257, 16);
 		frame.getContentPane().add(slider);
 		
 		JLabel lblSetSeasonLength = new JLabel("Set Season length (5-15)");
@@ -91,7 +91,11 @@ public class SetupScreen {
 		frame.getContentPane().add(lblSetSeasonLength);
 		
 		JButton btnConfirm = new JButton("Confirm");
-		btnConfirm.setBounds(273, 300, 117, 25);
+		btnConfirm.setBounds(496, 305, 117, 25);
 		frame.getContentPane().add(btnConfirm);
+		
+		JLabel errorLabel = new JLabel("Error displayed here:");
+		errorLabel.setBounds(56, 305, 170, 15);
+		frame.getContentPane().add(errorLabel);
 	}
 }
