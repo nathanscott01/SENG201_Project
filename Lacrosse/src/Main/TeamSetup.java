@@ -8,10 +8,12 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
+import javax.swing.JTextField;
 
 public class TeamSetup {
 
 	private JFrame frame;
+	private JTextField textFieldNickname;
 
 	/**
 	 * Launch the application.
@@ -76,12 +78,21 @@ public class TeamSetup {
 		frame.getContentPane().add(rdbtnDefence);
 		
 		JButton btnConfirm = new JButton("Confirm");
-		btnConfirm.setBounds(277, 319, 117, 25);
+		btnConfirm.setBounds(275, 339, 117, 25);
 		frame.getContentPane().add(btnConfirm);
 		
 		JLabel lblErrorMessage = new JLabel("Confirm Placement");
 		lblErrorMessage.setHorizontalAlignment(SwingConstants.CENTER);
-		lblErrorMessage.setBounds(127, 275, 415, 15);
+		lblErrorMessage.setBounds(123, 312, 415, 15);
 		frame.getContentPane().add(lblErrorMessage);
+		
+		JLabel lblChoooseNicknameleave = new JLabel("Chooose Nickname (leave blank for no nickname):");
+		lblChoooseNicknameleave.setBounds(62, 259, 368, 15);
+		frame.getContentPane().add(lblChoooseNicknameleave);
+		
+		textFieldNickname = new JTextField();
+		textFieldNickname.setBounds(428, 257, 160, 19);
+		frame.getContentPane().add(textFieldNickname);
+		textFieldNickname.setColumns(10);
 	}
 }

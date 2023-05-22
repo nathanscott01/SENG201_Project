@@ -95,7 +95,7 @@ public class ClubView {
 		btnViewInventory.setBounds(61, 389, 170, 25);
 		frame.getContentPane().add(btnViewInventory);
 		
-		JButton btnSwapAthlete = new JButton("Sustitue Team Member");
+		JButton btnSwapAthlete = new JButton("Substitute Team Member");
 		btnSwapAthlete.setBounds(61, 426, 225, 25);
 		frame.getContentPane().add(btnSwapAthlete);
 		

@@ -41,6 +41,7 @@ public class UseItemScreen {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setResizable(false);
 		frame.setBounds(100, 100, 600, 298);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -63,11 +64,12 @@ public class UseItemScreen {
 		
 		JButton btnDone = new JButton("Done");
 		btnDone.setEnabled(false);
-		btnDone.setBounds(471, 233, 117, 25);
+		btnDone.setBounds(461, 231, 117, 25);
 		frame.getContentPane().add(btnDone);
 		
-		btnConfirm.addActionListener(new ActionListener() {  //Done button select action
+		btnConfirm.addActionListener(new ActionListener() {  //Confirm button select action
 			public void actionPerformed(ActionEvent e) {
+				btnConfirm.setEnabled(false);
 				btnDone.setEnabled(true);
 			}
 		});
