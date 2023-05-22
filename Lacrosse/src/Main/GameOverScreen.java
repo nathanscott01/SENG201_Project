@@ -59,7 +59,7 @@ public class GameOverScreen {
 		JButton btnClose = new JButton("Close");
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				System.exit(0);
 			}
 		});
 		btnClose.setBounds(161, 206, 117, 25);
