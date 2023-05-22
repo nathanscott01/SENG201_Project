@@ -1,7 +1,5 @@
 package Main;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -19,28 +17,20 @@ public class SetupScreen {
 	private JFrame frame;
 	private JTextField txtLetters;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private GameEnvironment manager;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SetupScreen window = new SetupScreen();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public SetupScreen() {
+	public SetupScreen(GameEnvironment game) {
+		manager = game;
 		initialize();
+		frame.setVisible(true);
+	}
+	
+	public void closeFrame() {
+		frame.dispose();
+	}
+	
+	public void finishedFrame() {
+		manager.closeSetupScreen(this);
 	}
 
 	/**

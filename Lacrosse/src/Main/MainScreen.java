@@ -1,6 +1,5 @@
 package Main;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -48,7 +47,8 @@ public class MainScreen {
 		JButton btnStartGame = new JButton("Start Game");
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {       //Implement advance to next page
-				manager.advanceWeek();
+				manager.changeAdvanceState();
+				frame.dispose();
 			}
 		});
 		btnStartGame.setBounds(269, 270, 117, 25);

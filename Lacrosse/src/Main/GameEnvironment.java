@@ -26,12 +26,25 @@ public class GameEnvironment {
 	private int matchTracker = 0;
 	private int playerPoints;
 	Scanner sc = new Scanner(System.in);
+	private Boolean advanceState = false;
+	
+	public void changeAdvanceState() {
+		advanceState = true;
+	}
 	
 	public void launchMainScreen() {
 		MainScreen mainWindow = new MainScreen(this);
 	}
 	
 	public void closeMainScreen(MainScreen mainWindow) {
+		mainWindow.closeFrame();
+	}
+	
+	public void launchSetupScreen() {
+		SetupScreen mainWindow = new SetupScreen(this);
+	}
+	
+	public void closeSetupScreen(SetupScreen mainWindow) {
 		mainWindow.closeFrame();
 	}
 	
@@ -212,8 +225,9 @@ public class GameEnvironment {
 					 * @returns the next state, GAMESETUP
 					 */
 					game.launchMainScreen();
-					System.out.print("LACROSSE\n\nenter anything to start: ");
-					playerInputString = sc.nextLine();
+					while(!advanceState) {
+						System.out.print("");
+					}
 					return GameState.GAMESETUP;
 					
 					
@@ -225,9 +239,8 @@ public class GameEnvironment {
 					 * 
 					 * @returns the next state, TEAMSETUP
 					 */
-					System.out.println("Set Up Your Club\n");
-					System.out.print("Enter a Club name (3-15 characters): ");
 					
+					launchSetupScreen();
 					setClubName(playerInputString, playerClub); //sets Club name
 					
 					setSeasonLength();         //sets end week
