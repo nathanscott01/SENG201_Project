@@ -196,7 +196,7 @@ public class GameEnvironment {
 		 * @param matches is list of available matches
 		 * @return GameState
 		 */
-		public GameState runCurrentState(GameState state, Club playerClub, Market playerMarket, Market itemMarket, Inventory inventory, List<Match> matches) {
+		public GameState runCurrentState(GameState state, Club playerClub, Market playerMarket, Market itemMarket, Inventory inventory, List<Match> matches, GameEnvironment game) {
 			String playerInputString = "";
 			Integer playerInputInteger;
 			int marketIndex;
@@ -211,6 +211,7 @@ public class GameEnvironment {
 					 * Displays the title screen, stays in this state until player inputs something
 					 * @returns the next state, GAMESETUP
 					 */
+					game.launchMainScreen();
 					System.out.print("LACROSSE\n\nenter anything to start: ");
 					playerInputString = sc.nextLine();
 					return GameState.GAMESETUP;
@@ -554,7 +555,12 @@ public class GameEnvironment {
 					 */
 					max = 0;
 					if (playerClub.cantPlayNow()) {
-						System.out.println(max+"Players on your team are injured right now, maybe take a bye.");
+						for(Athlete athlete : playerClub.getTeam()) {
+							if (athlete.getStats()[2]<=0) {
+								max+=1;
+							}
+						}
+						System.out.println(max+" Players on your team are injured right now, maybe take a bye.");
 						return GameState.WEEKLYSELECT;
 					}
 					for (Match match : matches) {
@@ -652,11 +658,10 @@ public class GameEnvironment {
 		Inventory inventory = new Inventory();
 		List<Match> matches = new ArrayList<Match>();
 		GameState state = GameState.TITLESCREEN;
-		game.launchMainScreen();
 		
 		
 		while(state != GameState.GAMEFINISH) { /*run until the game is finished*/
-			state = game.runCurrentState(state, playerClub, playerMarket, itemMarket, inventory, matches);
+			state = game.runCurrentState(state, playerClub, playerMarket, itemMarket, inventory, matches, game);
 		}
 	}
 }
