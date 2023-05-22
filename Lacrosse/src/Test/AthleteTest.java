@@ -6,12 +6,19 @@
 	
 	
 	class AthleteTest {
+		private Athlete testAthlete = new Athlete(13000, 14, 10, 20);
+		private int[] expectedStats = {14, 10, 20};
+		private String nickname = "Harrison";
 	
 		@Test
-		void test() {
-			Athlete testAthlete = new Athlete(13000, 14, 10, 20);
-			int[] expectedStats = {14, 10, 20};
-			assertEquals(expectedStats, testAthlete.getStats());
+		void athleteStattest() {
+			assertEquals(expectedStats[0], testAthlete.getStats()[0]);
+			assertEquals(expectedStats[1], testAthlete.getStats()[1]);
+			assertEquals(expectedStats[2], testAthlete.getStats()[2]);
 		}
-	
+		
+		@Test
+		void athleteNicknametest() {
+			testAthlete.setNickname("Harrison");
+			assertEquals(nickname, testAthlete.getName()[1]);		}
 	}

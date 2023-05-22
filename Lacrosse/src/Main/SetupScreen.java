@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.ButtonGroup;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SetupScreen {
 
@@ -88,6 +90,11 @@ public class SetupScreen {
 		frame.getContentPane().add(lblSetSeasonLength);
 		
 		JButton btnConfirm = new JButton("Confirm");
+		btnConfirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnConfirm.setEnabled(false);
 		btnConfirm.setBounds(496, 305, 117, 25);
 		frame.getContentPane().add(btnConfirm);
