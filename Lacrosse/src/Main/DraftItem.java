@@ -1,20 +1,19 @@
 package Main;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Font;
 import javax.swing.JList;
 import javax.swing.JTextField;
-import java.awt.Color;
-import javax.swing.SwingConstants;
-import javax.swing.JButton;
 
-public class DraftAthleteScreen {
+public class DraftItem {
 
 	private JFrame frame;
-	private JTextField textFieldAthleteStats;
+	private JTextField textFieldItemDesc;
 
 	/**
 	 * Launch the application.
@@ -23,7 +22,7 @@ public class DraftAthleteScreen {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DraftAthleteScreen window = new DraftAthleteScreen();
+					DraftItem window = new DraftItem();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -35,7 +34,7 @@ public class DraftAthleteScreen {
 	/**
 	 * Create the application.
 	 */
-	public DraftAthleteScreen() {
+	public DraftItem() {
 		initialize();
 	}
 
@@ -48,7 +47,7 @@ public class DraftAthleteScreen {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblTitle = new JLabel("Draft Athlete");
+		JLabel lblTitle = new JLabel("Draft Item");
 		lblTitle.setFont(new Font("Dialog", Font.BOLD, 20));
 		lblTitle.setBounds(22, 12, 151, 24);
 		frame.getContentPane().add(lblTitle);
@@ -58,24 +57,24 @@ public class DraftAthleteScreen {
 		lblMoney.setBounds(394, 13, 190, 24);
 		frame.getContentPane().add(lblMoney);
 		
-		JList listReserve = new JList();
-		listReserve.setBounds(22, 85, 233, 206);
-		frame.getContentPane().add(listReserve);
+		JList listInventory = new JList();
+		listInventory.setBounds(22, 85, 233, 206);
+		frame.getContentPane().add(listInventory);
 		
-		JLabel lblAthletes = new JLabel("Reserve Athletes:");
-		lblAthletes.setBounds(22, 58, 181, 15);
-		frame.getContentPane().add(lblAthletes);
+		JLabel lblItem = new JLabel("Inventory:");
+		lblItem.setBounds(22, 58, 181, 15);
+		frame.getContentPane().add(lblItem);
 		
-		JLabel lblAthleteStats = new JLabel("Athlete Stats:");
-		lblAthleteStats.setBounds(331, 58, 131, 15);
-		frame.getContentPane().add(lblAthleteStats);
+		JLabel lblItemDesc = new JLabel("Item Description:");
+		lblItemDesc.setBounds(331, 58, 131, 15);
+		frame.getContentPane().add(lblItemDesc);
 		
-		textFieldAthleteStats = new JTextField();
-		textFieldAthleteStats.setEditable(false);
-		textFieldAthleteStats.setColumns(10);
-		textFieldAthleteStats.setBackground(Color.WHITE);
-		textFieldAthleteStats.setBounds(308, 84, 245, 207);
-		frame.getContentPane().add(textFieldAthleteStats);
+		textFieldItemDesc = new JTextField();
+		textFieldItemDesc.setEditable(false);
+		textFieldItemDesc.setColumns(10);
+		textFieldItemDesc.setBackground(Color.WHITE);
+		textFieldItemDesc.setBounds(308, 84, 245, 207);
+		frame.getContentPane().add(textFieldItemDesc);
 		
 		JButton btnDraft = new JButton("Draft");
 		btnDraft.setEnabled(false);

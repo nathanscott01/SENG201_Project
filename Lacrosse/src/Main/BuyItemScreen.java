@@ -1,21 +1,20 @@
 package Main;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Font;
 import javax.swing.JList;
 import javax.swing.JTextField;
-import java.awt.Color;
 import javax.swing.SwingConstants;
-import javax.swing.JButton;
 
-public class BuyAthleteScreen {
+public class BuyItemScreen {
 
 	private JFrame frame;
-	private JTextField textFieldAthleteStats;
-	private JTextField textFieldNickname;
+	private JTextField textFieldItemDesc;
 
 	/**
 	 * Launch the application.
@@ -24,7 +23,7 @@ public class BuyAthleteScreen {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BuyAthleteScreen window = new BuyAthleteScreen();
+					BuyItemScreen window = new BuyItemScreen();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +35,7 @@ public class BuyAthleteScreen {
 	/**
 	 * Create the application.
 	 */
-	public BuyAthleteScreen() {
+	public BuyItemScreen() {
 		initialize();
 	}
 
@@ -49,7 +48,7 @@ public class BuyAthleteScreen {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblTitle = new JLabel("Buy Athlete");
+		JLabel lblTitle = new JLabel("Buy Item");
 		lblTitle.setFont(new Font("Dialog", Font.BOLD, 20));
 		lblTitle.setBounds(22, 12, 151, 24);
 		frame.getContentPane().add(lblTitle);
@@ -63,38 +62,29 @@ public class BuyAthleteScreen {
 		listMarket.setBounds(22, 85, 233, 206);
 		frame.getContentPane().add(listMarket);
 		
-		JLabel lblAthletes = new JLabel("Athletes:");
-		lblAthletes.setBounds(22, 58, 80, 15);
-		frame.getContentPane().add(lblAthletes);
+		JLabel lblItems = new JLabel("Items:");
+		lblItems.setBounds(22, 58, 80, 15);
+		frame.getContentPane().add(lblItems);
 		
-		JLabel lblAthleteStats = new JLabel("Athlete Stats:");
-		lblAthleteStats.setBounds(331, 58, 131, 15);
-		frame.getContentPane().add(lblAthleteStats);
+		JLabel lblItemDesc = new JLabel("Item Description:");
+		lblItemDesc.setBounds(331, 58, 131, 15);
+		frame.getContentPane().add(lblItemDesc);
 		
-		textFieldAthleteStats = new JTextField();
-		textFieldAthleteStats.setEditable(false);
-		textFieldAthleteStats.setColumns(10);
-		textFieldAthleteStats.setBackground(Color.WHITE);
-		textFieldAthleteStats.setBounds(308, 84, 245, 207);
-		frame.getContentPane().add(textFieldAthleteStats);
+		textFieldItemDesc = new JTextField();
+		textFieldItemDesc.setEditable(false);
+		textFieldItemDesc.setColumns(10);
+		textFieldItemDesc.setBackground(Color.WHITE);
+		textFieldItemDesc.setBounds(308, 84, 245, 207);
+		frame.getContentPane().add(textFieldItemDesc);
 		
 		JLabel lblErrorlabel = new JLabel("errorlabel");
 		lblErrorlabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblErrorlabel.setBounds(170, 314, 245, 15);
+		lblErrorlabel.setBounds(308, 332, 245, 15);
 		frame.getContentPane().add(lblErrorlabel);
 		
 		JButton btnPurchase = new JButton("Purchase");
-		btnPurchase.setBounds(308, 343, 117, 25);
+		btnPurchase.setBounds(32, 329, 223, 55);
 		frame.getContentPane().add(btnPurchase);
-		
-		JLabel lblNickname = new JLabel("Nickname:");
-		lblNickname.setBounds(22, 348, 80, 15);
-		frame.getContentPane().add(lblNickname);
-		
-		textFieldNickname = new JTextField();
-		textFieldNickname.setBounds(116, 346, 139, 19);
-		frame.getContentPane().add(textFieldNickname);
-		textFieldNickname.setColumns(10);
 		
 		JButton btnGoBack = new JButton("Go Back");
 		btnGoBack.setBounds(467, 359, 117, 25);
