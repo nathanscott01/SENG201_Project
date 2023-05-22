@@ -11,7 +11,7 @@ import java.util.List;
  *
  */
 
-public class Club extends GameEnvironment {
+public class Club {
 	private String clubName;				// Name of the club
 	private List<Athlete> team;				// List of athletes playing in the team
 	private List<Athlete> reserve;			// List of athletes in the reserves

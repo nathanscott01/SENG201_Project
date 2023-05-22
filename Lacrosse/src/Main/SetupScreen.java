@@ -3,14 +3,19 @@ package Main;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.util.Enumeration;
+
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JSlider;
 import javax.swing.JButton;
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SetupScreen {
 
@@ -32,6 +37,18 @@ public class SetupScreen {
 	public void finishedFrame() {
 		manager.closeSetupScreen(this);
 	}
+	
+	public String getSelectedButtonText(ButtonGroup buttonGroup) {
+        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+
+            if (button.isSelected()) {
+                return button.getText();
+            }
+        }
+
+        return null;
+    }
 
 	/**
 	 * Initialize the contents of the frame. 
@@ -104,6 +121,12 @@ public class SetupScreen {
 			public void stateChanged(ChangeEvent e) {
 				lblCurrentNum.setText(String.valueOf(slider.getValue()));
 				btnConfirm.setEnabled(true);
+			}
+		});
+		
+		btnConfirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lblCurrentNum.setText(getSelectedButtonText(buttonGroup));
 			}
 		});
 	}

@@ -9,29 +9,47 @@ import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import java.awt.event.ActionListener;
+import java.util.Enumeration;
+import java.awt.event.ActionEvent;
 
 public class TeamSetup {
 
 	private JFrame frame;
 	private JTextField textFieldNickname;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TeamSetup window = new TeamSetup();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	private GameEnvironment manager;
+	Athlete newAthlete;
+	int pressed = 0;
+	
+	public TeamSetup(GameEnvironment game) {
+		manager = game;
+		initialize();
+		frame.setVisible(true);
 	}
+	
+	public void closeFrame() {
+		frame.dispose();
+	}
+	
+	public void finishedFrame() {
+		manager.closeTeamSetup(this);
+	}
+	
+	public String getSelectedButtonText(ButtonGroup buttonGroup) {
+        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+
+            if (button.isSelected()) {
+            	pressed+=1;
+                return button.getText();
+            }
+        }
+
+        return null;
+    }
 
 	/**
 	 * Create the application.
@@ -44,6 +62,8 @@ public class TeamSetup {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		newAthlete = manager.createAthlete(manager.getCurWeek());
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 682, 440);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,7 +75,7 @@ public class TeamSetup {
 		lblTeamSetUp.setBounds(142, 0, 400, 78);
 		frame.getContentPane().add(lblTeamSetUp);
 		
-		JLabel lblCurrentAthlete = new JLabel("Current Athlete:");
+		JLabel lblCurrentAthlete = new JLabel("Current Athlete: "+newAthlete);
 		lblCurrentAthlete.setBounds(73, 147, 122, 15);
 		frame.getContentPane().add(lblCurrentAthlete);
 		
@@ -99,5 +119,35 @@ public class TeamSetup {
 		textFieldNickname.setBounds(428, 257, 160, 19);
 		frame.getContentPane().add(textFieldNickname);
 		textFieldNickname.setColumns(10);
+		
+		btnConfirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!manager.getPlayerClub().checkTeamFull() & pressed>0) {
+					String pressedRadio;
+					int position = 0;
+					pressedRadio = getSelectedButtonText(buttonGroup);
+					if(pressedRadio == "Forward") {
+						position = 1;
+					}
+					if(pressedRadio == "Mid") {
+						position = 2;
+					}
+					if(pressedRadio == "Defence") {
+						position = 3;
+					}
+					newAthlete.setPosition(position);
+					manager.getPlayerClub().addAthlete(newAthlete);
+					newAthlete = manager.createAthlete(manager.getCurWeek());
+					
+				}
+				if(pressed==0) {
+					lblErrorMessage.setText("press a position please");
+				}
+				if(manager.getPlayerClub().checkTeamFull()) {
+					manager.changeAdvanceState();
+					frame.dispose();
+				}
+			}
+		});
 	}
 }

@@ -25,8 +25,16 @@ public class GameEnvironment {
 	private int max = 0;
 	private int matchTracker = 0;
 	private int playerPoints;
-	Scanner sc = new Scanner(System.in);
 	private Boolean advanceState = false;
+	private Club playerClub;
+	List<Match> matches;
+	GameState state;
+	
+	public GameEnvironment() {
+		playerClub = new Club();
+		List<Match> matches = new ArrayList<Match>();
+		GameState state = GameState.TITLESCREEN;
+	}
 	
 	public void changeAdvanceState() {
 		advanceState = true;
@@ -48,8 +56,33 @@ public class GameEnvironment {
 		mainWindow.closeFrame();
 	}
 	
+	public void launchTeamSetup() {
+		TeamSetup mainWindow = new TeamSetup(this);
+	}
+	
+	public void closeTeamSetup(TeamSetup mainWindow) {
+		mainWindow.closeFrame();
+	}
 	
 	
+	
+	
+	
+	public Club getPlayerClub() {
+		return playerClub;
+	}
+	
+	public GameState getState() {
+		return state;
+	}
+	
+	public void setState(GameState newState) {
+		state = newState;
+	}
+	
+	public int getCurWeek() {
+		return curWeek;
+	}
 	
 	/**
 	 *  Calling this function advances the weeks by one 
@@ -72,10 +105,10 @@ public class GameEnvironment {
 	 * @param playerClub is a Club Class, generated previously
 	 */
 	public void setClubName(String playerInput, Club playerClub) {
-		playerInput = sc.nextLine();
+		//playerInput = sc.nextLine();
 		while ((playerInput.length()<3) | (playerInput.length()>15)){
 			System.out.print("\nname must be 3-15 characters: ");
-			playerInput = sc.nextLine();
+			//playerInput = sc.nextLine();
 			}
 		playerClub.setName(playerInput);
 	}
@@ -96,7 +129,7 @@ public class GameEnvironment {
 		while ((playerInput<min) | (playerInput>max)){
 			System.out.print(prompt);
 			try {
-		        playerInput= Integer.parseInt(sc.nextLine());
+		        //playerInput= Integer.parseInt(sc.nextLine());
 		    } catch (NumberFormatException e) {
 //		    	 Returns -1 ???????
 		    }
@@ -174,10 +207,10 @@ public class GameEnvironment {
 	 */
 	public void nameAthlete(Athlete athlete) {
 		System.out.print("\nEnter nickname or just press enter to let them keep their name: ");
-		String playerInputString = sc.nextLine();
-		if (playerInputString!="") {
-			athlete.setNickname(playerInputString);
-		}
+		//String playerInputString = sc.nextLine();
+		//if (playerInputString!="") {
+		//	athlete.setNickname(playerInputString);
+		//}
 	}
 	
 
@@ -209,7 +242,7 @@ public class GameEnvironment {
 		 * @param matches is list of available matches
 		 * @return GameState
 		 */
-		public GameState runCurrentState(GameState state, Club playerClub, Market playerMarket, Market itemMarket, Inventory inventory, List<Match> matches, GameEnvironment game) {
+		public GameState runCurrentState(GameEnvironment game,Market playerMarket,Market itemMarket,Inventory inventory) {
 			String playerInputString = "";
 			Integer playerInputInteger;
 			int marketIndex;
@@ -240,7 +273,13 @@ public class GameEnvironment {
 					 * @returns the next state, TEAMSETUP
 					 */
 					
-					launchSetupScreen();
+					//launchSetupScreen(); ---------------------------
+					
+					launchTeamSetup();
+					advanceState = false;
+					while(!advanceState) {
+						System.out.print("");
+					}
 					setClubName(playerInputString, playerClub); //sets Club name
 					
 					setSeasonLength();         //sets end week
@@ -665,16 +704,13 @@ public class GameEnvironment {
 		 */
 	public static void main(String[] args) {
 		GameEnvironment game = new GameEnvironment();
-		Club playerClub = new Club();
-		Market playerMarket = new Market(0);
-		Market itemMarket = new Market(1);
-		Inventory inventory = new Inventory();
-		List<Match> matches = new ArrayList<Match>();
-		GameState state = GameState.TITLESCREEN;
+		Market playerMarket = new Market(0);;
+		Market itemMarket = new Market(1);;
+		Inventory inventory = new Inventory();;
+		game.setState(GameState.TITLESCREEN);
 		
-		
-		while(state != GameState.GAMEFINISH) { /*run until the game is finished*/
-			state = game.runCurrentState(state, playerClub, playerMarket, itemMarket, inventory, matches, game);
+		while(game.getState() != GameState.GAMEFINISH) { /*run until the game is finished*/
+			game.setState(game.runCurrentState(game, playerMarket, itemMarket, inventory));
 		}
 	}
 }
