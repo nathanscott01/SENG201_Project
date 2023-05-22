@@ -98,6 +98,7 @@ public class SetupScreen {
 		frame.getContentPane().add(lblSetSeasonLength);
 		
 		JButton btnConfirm = new JButton("Confirm");
+		btnConfirm.setEnabled(false);
 		btnConfirm.setBounds(496, 305, 117, 25);
 		frame.getContentPane().add(btnConfirm);
 		
@@ -106,13 +107,13 @@ public class SetupScreen {
 		frame.getContentPane().add(errorLabel);
 		
 		JLabel lblCurrentNum = new JLabel("");
-		lblCurrentNum.setBounds(381, 231, 70, 15);
+		lblCurrentNum.setBounds(554, 203, 70, 15);
 		frame.getContentPane().add(lblCurrentNum);
 		
 		slider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				
-				lblCurrentNum.setText(slider.getValue().toString());
+				lblCurrentNum.setText(String.valueOf(slider.getValue()));
+				btnConfirm.setEnabled(true);
 			}
 		});
 	}
