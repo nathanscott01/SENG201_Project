@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.util.Enumeration;
-
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -16,8 +15,16 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.event.DocumentEvent; // Import the DocumentEvent class
+import javax.swing.event.DocumentListener; // Import the DocumentListener class
 
 public class SetupScreen {
+	
+	public Boolean sliderEnabled = false;
+	public Boolean clubNameChosen = false;
+	public Boolean difficultyChosen = false;
+	public int difficulty;
+	private JButton btnConfirm; // Declare btnConfirm as a class-level field
 
 	private JFrame frame;
 	private JTextField txtLetters;
@@ -49,6 +56,8 @@ public class SetupScreen {
 
         return null;
     }
+	
+	
 
 	/**
 	 * Initialize the contents of the frame. 
@@ -59,6 +68,7 @@ public class SetupScreen {
 		frame.setBounds(100, 100, 670, 410);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		
 		
 		JLabel lblInitialSetup = new JLabel("Initial Setup:");
 		lblInitialSetup.setHorizontalAlignment(SwingConstants.CENTER);
@@ -74,16 +84,40 @@ public class SetupScreen {
 		buttonGroup.add(rdbtnEasy);
 		rdbtnEasy.setBounds(44, 100, 149, 23);
 		frame.getContentPane().add(rdbtnEasy);
+		rdbtnEasy.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // Button pressed, record the event
+		        difficulty = 1;
+		        difficultyChosen = true;
+		        updateConfirmButtonState();
+		    }
+		});
 		
 		JRadioButton rdbtnNormal = new JRadioButton("Normal");
 		buttonGroup.add(rdbtnNormal);
 		rdbtnNormal.setBounds(44, 127, 149, 23);
 		frame.getContentPane().add(rdbtnNormal);
+		rdbtnNormal.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // Button pressed, record the event
+		        difficulty = 2;  
+		        difficultyChosen = true;
+		        updateConfirmButtonState();
+		    }
+		});
 		
 		JRadioButton rdbtnHard = new JRadioButton("Hard");
 		buttonGroup.add(rdbtnHard);
 		rdbtnHard.setBounds(44, 154, 149, 23);
 		frame.getContentPane().add(rdbtnHard);
+		rdbtnHard.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // Button pressed, record the event
+		        difficulty = 3; 
+		        difficultyChosen = true;
+		        updateConfirmButtonState();
+		    }
+		});
 		
 		JLabel lblSetClubName = new JLabel("Set Club Name (3-15 lettes)");
 		lblSetClubName.setBounds(293, 71, 253, 15);
@@ -93,6 +127,26 @@ public class SetupScreen {
 		txtLetters.setBounds(303, 88, 114, 19);
 		frame.getContentPane().add(txtLetters);
 		txtLetters.setColumns(10);
+	    txtLetters.getDocument().addDocumentListener(new DocumentListener() {
+	        @Override
+	        public void insertUpdate(DocumentEvent e) {
+	            // Text inserted, update the clubNameChosen variable
+	            clubNameChosen = true;
+	            updateConfirmButtonState();
+	        }
+
+	        @Override
+	        public void removeUpdate(DocumentEvent e) {
+	            // Text removed, update the clubNameChosen variable
+	            clubNameChosen = !txtLetters.getText().isEmpty();
+	            updateConfirmButtonState();
+	        }
+
+	        @Override
+	        public void changedUpdate(DocumentEvent e) {
+	            // Style or attribute changes, not relevant here
+	        }
+	    });
 		
 		JSlider slider = new JSlider();
 		slider.setMaximum(15);
@@ -104,7 +158,7 @@ public class SetupScreen {
 		lblSetSeasonLength.setBounds(304, 176, 195, 15);
 		frame.getContentPane().add(lblSetSeasonLength);
 		
-		JButton btnConfirm = new JButton("Confirm");
+		btnConfirm = new JButton("Confirm");
 		btnConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -123,9 +177,11 @@ public class SetupScreen {
 		frame.getContentPane().add(lblCurrentNum);
 		
 		slider.addChangeListener(new ChangeListener() {
+			// Inside the stateChanged method of the slider ChangeListener
 			public void stateChanged(ChangeEvent e) {
-				lblCurrentNum.setText(String.valueOf(slider.getValue()));
-				btnConfirm.setEnabled(true);
+			    lblCurrentNum.setText(String.valueOf(slider.getValue()));
+			    sliderEnabled = true;
+			    updateConfirmButtonState();
 			}
 		});
 		
@@ -134,5 +190,15 @@ public class SetupScreen {
 				lblCurrentNum.setText(getSelectedButtonText(buttonGroup));
 			}
 		});
+		
+	}
+	
+	// Method to update the state of the Confirm button
+	private void updateConfirmButtonState() {
+	    if (sliderEnabled && clubNameChosen && difficultyChosen) {
+	        btnConfirm.setEnabled(true);
+	    } else {
+	        btnConfirm.setEnabled(false);
+	    }
 	}
 }

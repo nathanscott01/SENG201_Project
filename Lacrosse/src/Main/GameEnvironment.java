@@ -273,9 +273,9 @@ public class GameEnvironment {
 					 * @returns the next state, TEAMSETUP
 					 */
 					
-					//launchSetupScreen(); ---------------------------
+					launchSetupScreen();
 					
-					launchTeamSetup();
+//					launchTeamSetup();
 					advanceState = false;
 					while(!advanceState) {
 						System.out.print("");
