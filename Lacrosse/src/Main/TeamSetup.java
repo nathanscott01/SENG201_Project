@@ -9,11 +9,13 @@ import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.ButtonGroup;
 
 public class TeamSetup {
 
 	private JFrame frame;
 	private JTextField textFieldNickname;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -66,14 +68,17 @@ public class TeamSetup {
 		frame.getContentPane().add(lblChoooseposition);
 		
 		JRadioButton rdbtnForward = new JRadioButton("Forward");
+		buttonGroup.add(rdbtnForward);
 		rdbtnForward.setBounds(225, 201, 95, 23);
 		frame.getContentPane().add(rdbtnForward);
 		
 		JRadioButton rdbtnMid = new JRadioButton("Mid");
+		buttonGroup.add(rdbtnMid);
 		rdbtnMid.setBounds(359, 201, 62, 23);
 		frame.getContentPane().add(rdbtnMid);
 		
 		JRadioButton rdbtnDefence = new JRadioButton("Defence");
+		buttonGroup.add(rdbtnDefence);
 		rdbtnDefence.setBounds(468, 201, 149, 23);
 		frame.getContentPane().add(rdbtnDefence);
 		

@@ -10,11 +10,15 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JSlider;
 import javax.swing.JButton;
+import javax.swing.ButtonGroup;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class SetupScreen {
 
 	private JFrame frame;
 	private JTextField txtLetters;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -60,14 +64,17 @@ public class SetupScreen {
 		frame.getContentPane().add(lblSetDifficulty);
 		
 		JRadioButton rdbtnEasy = new JRadioButton("Easy");
+		buttonGroup.add(rdbtnEasy);
 		rdbtnEasy.setBounds(44, 100, 149, 23);
 		frame.getContentPane().add(rdbtnEasy);
 		
 		JRadioButton rdbtnNormal = new JRadioButton("Normal");
+		buttonGroup.add(rdbtnNormal);
 		rdbtnNormal.setBounds(44, 127, 149, 23);
 		frame.getContentPane().add(rdbtnNormal);
 		
 		JRadioButton rdbtnHard = new JRadioButton("Hard");
+		buttonGroup.add(rdbtnHard);
 		rdbtnHard.setBounds(44, 154, 149, 23);
 		frame.getContentPane().add(rdbtnHard);
 		
@@ -97,5 +104,16 @@ public class SetupScreen {
 		JLabel errorLabel = new JLabel("Error displayed here:");
 		errorLabel.setBounds(56, 305, 170, 15);
 		frame.getContentPane().add(errorLabel);
+		
+		JLabel lblCurrentNum = new JLabel("");
+		lblCurrentNum.setBounds(381, 231, 70, 15);
+		frame.getContentPane().add(lblCurrentNum);
+		
+		slider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				
+				lblCurrentNum.setText(slider.getValue().toString());
+			}
+		});
 	}
 }
