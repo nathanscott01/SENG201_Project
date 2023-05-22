@@ -27,6 +27,17 @@ public class GameEnvironment {
 	private int playerPoints;
 	Scanner sc = new Scanner(System.in);
 	
+	public void launchMainScreen() {
+		MainScreen mainWindow = new MainScreen(this);
+	}
+	
+	public void closeMainScreen(MainScreen mainWindow) {
+		mainWindow.closeFrame();
+	}
+	
+	
+	
+	
 	/**
 	 *  Calling this function advances the weeks by one 
 	 *  
@@ -641,6 +652,8 @@ public class GameEnvironment {
 		Inventory inventory = new Inventory();
 		List<Match> matches = new ArrayList<Match>();
 		GameState state = GameState.TITLESCREEN;
+		game.launchMainScreen();
+		
 		
 		while(state != GameState.GAMEFINISH) { /*run until the game is finished*/
 			state = game.runCurrentState(state, playerClub, playerMarket, itemMarket, inventory, matches);
