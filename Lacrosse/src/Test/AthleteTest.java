@@ -20,5 +20,17 @@
 		@Test
 		void athleteNicknametest() {
 			testAthlete.setNickname("Harrison");
-			assertEquals(nickname, testAthlete.getName()[1]);		}
+			assertEquals(nickname, testAthlete.getName()[1]);		
+		}
+		
+		@Test
+		void athletePositiontest() {
+			testAthlete.setPosition(3);
+			assertEquals(3, testAthlete.getPosition());
+		}
+		
+		@Test
+		void athleteInjurytest() {
+			assertEquals(0, testAthlete.getInjuries());
+		}
 	}
