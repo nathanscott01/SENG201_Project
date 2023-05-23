@@ -75,7 +75,7 @@ public class GameEnvironment {
 			try {
 		        playerInput= Integer.parseInt(sc.nextLine());
 		    } catch (NumberFormatException e) {
-//		    	 Returns -1 ???????
+//		    	 Stops a crash on incorrect input
 		    }
 			if ((playerInput<min) | (playerInput>max)){
 				System.out.println("Error! Must be an integer between "+min+" and "+max);
