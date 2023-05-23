@@ -76,7 +76,5 @@
 			testAthlete.setPosition(77);
 			athleteOutput = "This shouldn't happen";
 			assertEquals(athleteOutput, testAthlete.toString());
-			
-			
 		}
 	}
