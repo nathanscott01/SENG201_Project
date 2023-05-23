@@ -60,6 +60,8 @@ public class RandomEvent extends GameEnvironment {
 			if (chanceValue>=101-5*(5-playerClub.getReserve().size())) {
 				Athlete newAthlete = new Athlete(50, 27, 27, 100);
 				playerClub.getReserve().add(newAthlete);
+				eventDescription = newAthlete.getName()[1];
+				return eventDescription+" Has Joined the club, Check your reserves";
 			}
 			break;
 			

@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
 
-public class ClubView {
+public class ClubViewScreen {
 
 	private JFrame frame;
 	private JTextField textField;
@@ -25,7 +25,7 @@ public class ClubView {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ClubView window = new ClubView();
+					ClubViewScreen window = new ClubViewScreen();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -37,7 +37,7 @@ public class ClubView {
 	/**
 	 * Create the application.
 	 */
-	public ClubView() {
+	public ClubViewScreen() {
 		initialize();
 	}
 

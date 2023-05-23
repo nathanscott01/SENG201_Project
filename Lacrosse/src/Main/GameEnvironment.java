@@ -22,6 +22,7 @@ public class GameEnvironment {
 	private int endWeek = 0;
 	private int difficulty = 2;
 	private float playerMoney = 0;
+	private float moneyGained = 0;
 	private int max = 0;
 	private int matchTracker = 0;
 	private int playerPoints;
@@ -119,9 +120,10 @@ public class GameEnvironment {
 	 */
 	public Athlete createAthlete(int curWeek) {
 		max = 30+5*curWeek;
+		float cost = 45+((int)Math.floor(Math.random()*((curWeek-1)+1))*34);
 		int ranAtkStat = (int)Math.floor(Math.random()*(max-15+1) + 15);
 		int ranDefStat = (int)Math.floor(Math.random()*(max-15+1) + 15);
-		Athlete newAthlete = new Athlete(30, ranAtkStat, ranDefStat, 100);
+		Athlete newAthlete = new Athlete(cost, ranAtkStat, ranDefStat, 100);
 		newAthlete.setPosition(4);
 		return newAthlete;
 	}
@@ -213,7 +215,7 @@ public class GameEnvironment {
 					 * 
 					 * @returns the next state, TEAMSETUP
 					 */
-					System.out.println("Set Up Your Club\n");
+					System.out.println("\nSet Up Your Club\n");
 					System.out.print("Enter a Club name (3-15 characters): ");
 					
 					setClubName(playerInputString, playerClub); //sets Club name
@@ -267,7 +269,9 @@ public class GameEnvironment {
 					 * 
 					 * @returns CLUBVIEW, STADIUM, MARKETSELECT or TAKINGBYE upon player input
 					 */
-					playerInputInteger = getPlayerInt(1,4,"\nWhat would you like to do?\n\n1. Go to Club\n2. Go to Stadium\n3. Visit Market\n4. Take a Bye\nEnter choice: ");
+					playerInputInteger = getPlayerInt(1,4,"\nMoney: "+playerMoney+"\nCurrentWeek: "+curWeek+"\nWeeks Left: "
+													+(endWeek-curWeek)+"\nWhat would you like to do?\n\n1. "
+													+ "Go to Club\n2. Go to Stadium\n3. Visit Market\n4. Take a Bye\nEnter choice: ");
 					switch(playerInputInteger) {
 						case(1):
 							return GameState.CLUBVIEW;
@@ -324,7 +328,7 @@ public class GameEnvironment {
 						reserveIndex = getPlayerInt(0,reserveIndex,"\nEnter number of reserve member being swapped out: ");
 						playerClub.positionSwap(playerClub.getTeam().get(teamIndex), playerClub.getReserve().get(reserveIndex));
 					} else {
-						System.out.println("No Available Reserves");
+						System.out.println("\nNo Available Reserves");
 					}
 					
 					return GameState.CLUBVIEW;
@@ -339,7 +343,7 @@ public class GameEnvironment {
 					 */
 					int itemIndex = 0;
 					int useIndex;
-					System.out.println("Items: ");
+					System.out.println("\nItems: ");
 					for(Item item : inventory.getInventory()) {
 						System.out.println(itemIndex+". "+item);
 						itemIndex+=1;
@@ -347,7 +351,7 @@ public class GameEnvironment {
 					useIndex = getPlayerInt(0,itemIndex,"\nEnter number of Item you want to use or "+itemIndex+" to leave:");
 					if(useIndex != itemIndex) {
 						if (!playerClub.availableReserve(-100)) {
-							System.out.println("Everyone seems busy training, better try again with some reserves");
+							System.out.println("\nEveryone seems busy training, better try again with some reserves");
 							return GameState.CLUBVIEW;
 						}
 						for (Athlete athlete : playerClub.getReserve()) {
@@ -357,7 +361,7 @@ public class GameEnvironment {
 						reserveIndex = getPlayerInt(0,reserveIndex,"\nEnter number of reserve member the item will be used on: ");
 						athleteTracker = playerClub.getReserve().get(reserveIndex);
 						inventory.getInventory().get(useIndex).useItem(athleteTracker);
-						System.out.println("Item used, "+athleteTracker.getName()[1]+" has had their stats changed\n\n"+athleteTracker);
+						System.out.println("\nItem used, "+athleteTracker.getName()[1]+" has had their stats changed\n\n"+athleteTracker);
 						inventory.removeItem(inventory.getInventory().get(useIndex));
 						return GameState.INVENTORY;
 					}
@@ -399,7 +403,7 @@ public class GameEnvironment {
 					 */
 					System.out.print("\n Athlete Market\n");
 					if (playerClub.getReserve().size()==5) {
-						System.out.println("Whoops, Your reserves are full, maybe draft someone");
+						System.out.println("\nWhoops, Your reserves are full, maybe draft someone");
 						return GameState.MARKETSELECT;
 					}
 					marketIndex = playerMarket.printAthleteMarket();
@@ -425,7 +429,7 @@ public class GameEnvironment {
 					 * 
 					 * @returns MARKETSELECT
 					 */
-					System.out.print("Here you can draft athletes from reserves\n");
+					System.out.println("\nHere you can draft athletes from reserves\n");
 					int draftReserveIndex = -1;
 					if (playerClub.availableReserve(-100)){
 						for (Athlete athlete : playerClub.getReserve()) {
@@ -483,7 +487,7 @@ public class GameEnvironment {
 					 * 
 					 * @returns MARKETSELECT
 					 */
-					System.out.print("Here you can draft items from your inventory\n");
+					System.out.println("\nHere you can draft items from your inventory\n");
 					int draftItemIndex = -1;
 					if (inventory.notEmpty()){
 						for (Item item : inventory.getInventory()) {
@@ -511,6 +515,7 @@ public class GameEnvironment {
 					 * 
 					 * @returns advanceWeek(), which leads to either RESULTSCREEN or WEEKLYSELECT
 					 */
+					System.out.println("\nA week passes, Athlete's rested and market's have changed over. Let's see if anything Happened:\n");
 					nextState = advanceWeek();
 					playerMarket.resetPlayerMarket(curWeek);
 					itemMarket.resetItemMarket(curWeek);
@@ -530,7 +535,8 @@ public class GameEnvironment {
 					for (Athlete athlete : playerClub.getReserve()) {
 						athlete.rest();
 					}
-					event.runEvent(playerInputInteger, playerClub);
+					playerInputString = event.runEvent(playerInputInteger, playerClub);
+					System.out.println(playerInputString);
 					return nextState;
 					
 					
@@ -546,6 +552,8 @@ public class GameEnvironment {
 						System.out.println(max+"Players on your team are injured right now, maybe take a bye.");
 						return GameState.WEEKLYSELECT;
 					}
+					System.out.println("\nStadium\n");
+					System.out.println("Available Matches:");
 					for (Match match : matches) {
 						System.out.println(max+". "+match);
 						max+=1;
@@ -570,9 +578,10 @@ public class GameEnvironment {
 					 * 
 					 * @returns advanceWeek()
 					 */
-					System.out.println("YOU WON!");
+					System.out.println("\nYOU WON!");
 					playerPoints += matches.get(matchTracker).getPoints();
 					playerMoney += matches.get(matchTracker).getMoney();
+					moneyGained += matches.get(matchTracker).getMoney();
 					nextState = advanceWeek();
 					playerMarket.resetPlayerMarket(curWeek);
 					itemMarket.resetItemMarket(curWeek);
@@ -596,7 +605,7 @@ public class GameEnvironment {
 					 * 
 					 * @returns advanceWeek()
 					 */
-					System.out.println("YOU LOST!");
+					System.out.println("\nYOU LOST!");
 					nextState = advanceWeek();
 					playerMarket.resetPlayerMarket(curWeek);
 					itemMarket.resetItemMarket(curWeek);
@@ -620,7 +629,7 @@ public class GameEnvironment {
 					 * 
 					 * @returns GAMEFINISH
 					 */
-					System.out.println("GAME OVER\n\nYou Scored "+playerPoints+" points");
+					System.out.println("\nGAME OVER\n\nYou Gained "+moneyGained+" Dollars\nYou Scored "+playerPoints+" points");
 					return GameState.GAMEFINISH;
 					
 				default:

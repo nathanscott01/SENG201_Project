@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
 
-public class WeeklySelect {
+public class WeeklySelectScreen {
 
 	private JFrame frame;
 
@@ -18,7 +18,7 @@ public class WeeklySelect {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					WeeklySelect window = new WeeklySelect();
+					WeeklySelectScreen window = new WeeklySelectScreen();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -30,7 +30,7 @@ public class WeeklySelect {
 	/**
 	 * Create the application.
 	 */
-	public WeeklySelect() {
+	public WeeklySelectScreen() {
 		initialize();
 	}
 

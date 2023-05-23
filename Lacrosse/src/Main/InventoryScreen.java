@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JButton;
 
-public class InventorySceen {
+public class InventoryScreen {
 
 	private JFrame frame;
 	private JTextField txtBoxItemDescription;
@@ -22,7 +22,7 @@ public class InventorySceen {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InventorySceen window = new InventorySceen();
+					InventoryScreen window = new InventoryScreen();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,7 +34,7 @@ public class InventorySceen {
 	/**
 	 * Create the application.
 	 */
-	public InventorySceen() {
+	public InventoryScreen() {
 		initialize();
 	}
 

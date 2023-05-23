@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
 
-public class DraftItem {
+public class DraftItemScreen {
 
 	private JFrame frame;
 	private JTextField textFieldItemDesc;
@@ -22,7 +22,7 @@ public class DraftItem {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DraftItem window = new DraftItem();
+					DraftItemScreen window = new DraftItemScreen();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,7 +34,7 @@ public class DraftItem {
 	/**
 	 * Create the application.
 	 */
-	public DraftItem() {
+	public DraftItemScreen() {
 		initialize();
 	}
 

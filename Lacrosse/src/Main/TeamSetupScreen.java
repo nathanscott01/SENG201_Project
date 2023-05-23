@@ -10,7 +10,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
-public class TeamSetup {
+public class TeamSetupScreen {
 
 	private JFrame frame;
 	private JTextField textFieldNickname;
@@ -22,7 +22,7 @@ public class TeamSetup {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TeamSetup window = new TeamSetup();
+					TeamSetupScreen window = new TeamSetupScreen();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,7 +34,7 @@ public class TeamSetup {
 	/**
 	 * Create the application.
 	 */
-	public TeamSetup() {
+	public TeamSetupScreen() {
 		initialize();
 	}
 
