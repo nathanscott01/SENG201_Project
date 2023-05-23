@@ -25,64 +25,7 @@ public class GameEnvironment {
 	private int max = 0;
 	private int matchTracker = 0;
 	private int playerPoints;
-	private Boolean advanceState = false;
-	private Club playerClub;
-	List<Match> matches;
-	GameState state;
-	
-	public GameEnvironment() {
-		playerClub = new Club();
-		List<Match> matches = new ArrayList<Match>();
-		GameState state = GameState.TITLESCREEN;
-	}
-	
-	public void changeAdvanceState() {
-		advanceState = true;
-	}
-	
-	public void launchMainScreen() {
-		MainScreen mainWindow = new MainScreen(this);
-	}
-	
-	public void closeMainScreen(MainScreen mainWindow) {
-		mainWindow.closeFrame();
-	}
-	
-	public void launchSetupScreen() {
-		SetupScreen mainWindow = new SetupScreen(this);
-	}
-	
-	public void closeSetupScreen(SetupScreen mainWindow) {
-		mainWindow.closeFrame();
-	}
-	
-	public void launchTeamSetup() {
-		TeamSetup mainWindow = new TeamSetup(this);
-	}
-	
-	public void closeTeamSetup(TeamSetup mainWindow) {
-		mainWindow.closeFrame();
-	}
-	
-	
-	
-	
-	
-	public Club getPlayerClub() {
-		return playerClub;
-	}
-	
-	public GameState getState() {
-		return state;
-	}
-	
-	public void setState(GameState newState) {
-		state = newState;
-	}
-	
-	public int getCurWeek() {
-		return curWeek;
-	}
+	Scanner sc = new Scanner(System.in);
 	
 	/**
 	 *  Calling this function advances the weeks by one 
@@ -105,10 +48,10 @@ public class GameEnvironment {
 	 * @param playerClub is a Club Class, generated previously
 	 */
 	public void setClubName(String playerInput, Club playerClub) {
-		//playerInput = sc.nextLine();
+		playerInput = sc.nextLine();
 		while ((playerInput.length()<3) | (playerInput.length()>15)){
 			System.out.print("\nname must be 3-15 characters: ");
-			//playerInput = sc.nextLine();
+			playerInput = sc.nextLine();
 			}
 		playerClub.setName(playerInput);
 	}
@@ -129,7 +72,7 @@ public class GameEnvironment {
 		while ((playerInput<min) | (playerInput>max)){
 			System.out.print(prompt);
 			try {
-		        //playerInput= Integer.parseInt(sc.nextLine());
+		        playerInput= Integer.parseInt(sc.nextLine());
 		    } catch (NumberFormatException e) {
 //		    	 Returns -1 ???????
 		    }
@@ -207,10 +150,10 @@ public class GameEnvironment {
 	 */
 	public void nameAthlete(Athlete athlete) {
 		System.out.print("\nEnter nickname or just press enter to let them keep their name: ");
-		//String playerInputString = sc.nextLine();
-		//if (playerInputString!="") {
-		//	athlete.setNickname(playerInputString);
-		//}
+		String playerInputString = sc.nextLine();
+		if (playerInputString!="") {
+			athlete.setNickname(playerInputString);
+		}
 	}
 	
 
@@ -242,7 +185,7 @@ public class GameEnvironment {
 		 * @param matches is list of available matches
 		 * @return GameState
 		 */
-		public GameState runCurrentState(GameEnvironment game,Market playerMarket,Market itemMarket,Inventory inventory) {
+		public GameState runCurrentState(GameState state, Club playerClub, Market playerMarket, Market itemMarket, Inventory inventory, List<Match> matches) {
 			String playerInputString = "";
 			Integer playerInputInteger;
 			int marketIndex;
@@ -257,10 +200,8 @@ public class GameEnvironment {
 					 * Displays the title screen, stays in this state until player inputs something
 					 * @returns the next state, GAMESETUP
 					 */
-					game.launchMainScreen();
-					while(!advanceState) {
-						System.out.print("");
-					}
+					System.out.print("LACROSSE\n\nenter anything to start: ");
+					playerInputString = sc.nextLine();
 					return GameState.GAMESETUP;
 					
 					
@@ -272,14 +213,9 @@ public class GameEnvironment {
 					 * 
 					 * @returns the next state, TEAMSETUP
 					 */
+					System.out.println("Set Up Your Club\n");
+					System.out.print("Enter a Club name (3-15 characters): ");
 					
-					launchSetupScreen();
-					
-//					launchTeamSetup();
-					advanceState = false;
-					while(!advanceState) {
-						System.out.print("");
-					}
 					setClubName(playerInputString, playerClub); //sets Club name
 					
 					setSeasonLength();         //sets end week
@@ -607,12 +543,7 @@ public class GameEnvironment {
 					 */
 					max = 0;
 					if (playerClub.cantPlayNow()) {
-						for(Athlete athlete : playerClub.getTeam()) {
-							if (athlete.getStats()[2]<=0) {
-								max+=1;
-							}
-						}
-						System.out.println(max+" Players on your team are injured right now, maybe take a bye.");
+						System.out.println(max+"Players on your team are injured right now, maybe take a bye.");
 						return GameState.WEEKLYSELECT;
 					}
 					for (Match match : matches) {
@@ -704,13 +635,15 @@ public class GameEnvironment {
 		 */
 	public static void main(String[] args) {
 		GameEnvironment game = new GameEnvironment();
-		Market playerMarket = new Market(0);;
-		Market itemMarket = new Market(1);;
-		Inventory inventory = new Inventory();;
-		game.setState(GameState.TITLESCREEN);
+		Club playerClub = new Club();
+		Market playerMarket = new Market(0);
+		Market itemMarket = new Market(1);
+		Inventory inventory = new Inventory();
+		List<Match> matches = new ArrayList<Match>();
+		GameState state = GameState.TITLESCREEN;
 		
-		while(game.getState() != GameState.GAMEFINISH) { /*run until the game is finished*/
-			game.setState(game.runCurrentState(game, playerMarket, itemMarket, inventory));
+		while(state != GameState.GAMEFINISH) { /*run until the game is finished*/
+			state = game.runCurrentState(state, playerClub, playerMarket, itemMarket, inventory, matches);
 		}
 	}
 }

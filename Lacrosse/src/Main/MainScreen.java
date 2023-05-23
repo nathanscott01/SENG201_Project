@@ -1,5 +1,6 @@
 package Main;
 
+import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,22 +13,30 @@ import java.awt.event.ActionEvent;
 public class MainScreen {
 
 	private JFrame frame;
-	private GameEnvironment manager;
-	
-	public MainScreen(GameEnvironment game) {
-		manager = game;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MainScreen window = new MainScreen();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public MainScreen() {
 		initialize();
-		frame.setVisible(true);
 	}
-	
-	public void closeFrame() {
-		frame.dispose();
-	}
-	
-	public void finishedFrame() {
-		manager.closeMainScreen(this);
-	}
-	
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -47,8 +56,7 @@ public class MainScreen {
 		JButton btnStartGame = new JButton("Start Game");
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {       //Implement advance to next page
-				manager.changeAdvanceState();
-				frame.dispose();
+				
 			}
 		});
 		btnStartGame.setBounds(269, 270, 117, 25);
